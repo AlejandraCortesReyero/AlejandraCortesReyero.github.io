@@ -1,0 +1,184 @@
+/* Global reset */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+	--accent:#861c42;
+	--muted:#f6f4f7;
+	--text:#222;
+	--pink:#d32b4f;
+}
+html,body,#root{height:100%}
+body{
+	font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+	color:var(--text);
+	background-color:#fff;
+			/* Fondo blanco por ahora (sin stripes) */
+			background-image: none;
+			background-color: #ffffff;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	padding:40px 20px;
+}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.logo{font-weight:600;letter-spacing:1px}
+.meta{color:#666}
+
+.hero{min-height:78vh;display:flex;align-items:center}
+
+/* Centered layout for the new single-folder hero */
+.hero-inner{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;padding:40px 0}
+.hero-inner.centered{text-align:center}
+
+.hero-left{flex:1}
+.hero-right{flex:1;display:flex;justify-content:center}
+
+.title{font-family:'Playfair Display',serif;font-size:92px;line-height:0.85;color:rgba(129,92,202,0.18);display:flex;align-items:flex-end;gap:8px}
+.title span{color:#861c42;font-weight:700}
+.title em{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;color:#861c42;font-size:56px}
+.subtitle{margin-top:10px;color:#5c5a5a}
+.pager{margin-top:22px;color:#333}
+
+.folder-wrap{position:relative;width:480px;max-width:90%;height:auto;background:transparent;transition:transform 260ms cubic-bezier(.2,.8,.2,1);will-change:transform;perspective:1200px}
+/* Pop animation: overshoot then settle */
+@keyframes pop {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.08); }
+ 100% { transform: scale(1.04); }
+}
+.folder-wrap:hover{animation: pop 320ms cubic-bezier(.2,.8,.2,1) forwards}
+
+/* Stack: back image, cards, front image */
+.folder-stack{position:relative;width:100%;height:auto;display:block;transform-style:preserve-3d;overflow:visible}
+.folder-back,.folder-front{display:block;width:100%;height:auto;object-fit:contain;pointer-events:none}
+
+.folder-front{position:absolute;left:0;right:0;bottom:0;z-index:20;transition:box-shadow 240ms ease}
+.folder-back{position:relative;z-index:1}
+
+/* Place cards inside the folder (between back and front) */
+.cards{position:absolute;left:15%;top:18%;width:70%;height:auto;z-index:2;pointer-events:none}
+.card{position:absolute;width:34%;height:auto;border-radius:6px;object-fit:cover;box-shadow:0 10px 26px rgba(0,0,0,0.14);transition:transform 360ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease, width 220ms ease, height 220ms ease;transform:rotate(var(--r, 0deg)) translateZ(var(--z, 0px));}
+/* left small card (moved inwards) */
+.card-1{left:8%;top:12%;--r:-10deg;z-index:8;width:30%}
+/* center red card - prominent and forward (slightly narrower) */
+.card-2{left:30%;top:6%;--r:-6deg;z-index:11;width:36%}
+/* right large card (coffee) - moved leftwards and slightly smaller */
+.card-3{left:52%;top:6%;--r:6deg;z-index:9;width:36%}
+/* small right-most behind (moved inwards) and above card-3 */
+.card-4{left:66%;top:calc(36% + 50px);--r:8deg;--z:-80px;z-index:11;width:26%}
+
+.folder-wrap:hover .folder-front{box-shadow:none}
+/* On hover combine the original rotation (--r) with translate/scale so rotation is preserved */
+.folder-wrap:hover .card{transform:rotate(var(--r, 0deg)) translateZ(var(--z, 0px)) translateY(-12px) scale(1.03)}
+
+/* Launch animation: when user clicks the folder, cards fly up with a fun arc + rotation and fade out */
+.folder-wrap.launched{pointer-events:none}
+/* Keep the folder front visible while files fly */
+.folder-wrap.launched .folder-front{opacity:1}
+
+/* Generic launch animation settings */
+.card.launch{animation-fill-mode:forwards;animation-duration:900ms;animation-timing-function:cubic-bezier(.2,.8,.2,1);opacity:1}
+
+/* Per-card staggered animation names and delays for a lively effect */
+.card-1.launch{animation-name:launch1;animation-delay:0ms}
+.card-2.launch{animation-name:launch2;animation-delay:80ms}
+.card-3.launch{animation-name:launch3;animation-delay:160ms}
+.card-4.launch{animation-name:launch4;animation-delay:240ms}
+
+@keyframes launch1{
+	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
+	40%{transform:rotate(calc(var(--r,0deg) - 12deg)) translateZ(var(--z,0px)) translateY(-28vh) translateX(-6px) scale(0.96);opacity:0.95}
+	100%{transform:rotate(calc(var(--r,0deg) - 36deg)) translateZ(var(--z,0px)) translateY(-120vh) translateX(-20px) scale(0.7);opacity:0}
+}
+
+@keyframes launch2{
+	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
+	40%{transform:rotate(calc(var(--r,0deg) + 8deg)) translateZ(var(--z,0px)) translateY(-30vh) translateX(8px) scale(0.95);opacity:0.95}
+	100%{transform:rotate(calc(var(--r,0deg) + 46deg)) translateZ(var(--z,0px)) translateY(-130vh) translateX(28px) scale(0.68);opacity:0}
+}
+
+@keyframes launch3{
+	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
+	40%{transform:rotate(calc(var(--r,0deg) - 6deg)) translateZ(var(--z,0px)) translateY(-32vh) translateX(-12px) scale(0.94);opacity:0.95}
+	100%{transform:rotate(calc(var(--r,0deg) - 52deg)) translateZ(var(--z,0px)) translateY(-140vh) translateX(-36px) scale(0.66);opacity:0}
+}
+
+@keyframes launch4{
+	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
+	40%{transform:rotate(calc(var(--r,0deg) + 14deg)) translateZ(var(--z,0px)) translateY(-34vh) translateX(10px) scale(0.93);opacity:0.95}
+	100%{transform:rotate(calc(var(--r,0deg) + 62deg)) translateZ(var(--z,0px)) translateY(-150vh) translateX(40px) scale(0.64);opacity:0}
+}
+
+/* Ensure hero hiding produces clean result after scroll */
+.hero.hide-after-launch{transition:opacity 320ms ease;opacity:0;pointer-events:none}
+
+.site-footer{padding:28px 0}
+.small-note{display:flex;justify-content:flex-end}
+.search-bubble{background:rgba(255,255,255,0.9);padding:12px 18px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+
+/* Responsive */
+@media (max-width:900px){
+	.hero-inner{flex-direction:column;align-items:flex-start}
+	.title{font-size:56px}
+	.folder-wrap{width:260px;height:180px}
+	.card{width:120px;height:150px}
+}
+
+@media (max-width:480px){
+	body{padding:18px}
+	.title{font-size:44px}
+	.container{padding:0 8px}
+}
+
+/* Folders grid shown after launch - positioned around the central folder inside .hero */
+.hero{position:relative;perspective:1200px;-webkit-perspective:1200px}
+.folders-grid{position:absolute;inset:0;background:transparent;padding:0;margin:0;min-height:0;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:auto;transform-style:preserve-3d}
+.folders-grid.revealed{opacity:1;visibility:visible;transform:none;transition:opacity 420ms ease,transform 420ms ease}
+.folders-inner{position:relative;width:100%;height:100%}
+.folders-row{position:relative;width:100%;height:100%}
+.folder-item{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translateZ(0px) translateY(0);transition:transform 520ms cubic-bezier(.2,.8,.2,1), opacity 420ms ease}
+/* positions around central folder */
+.folder-item.tl{left:6%;top:8%}
+.folder-item.tr{right:6%;top:8%}
+.folder-item.bl{left:6%;bottom:14%}
+.folder-item.br{right:6%;bottom:14%}
+.folder-icon{width:120px;height:auto;display:block}
+.folder-title{margin-top:10px;font-size:18px;color:#111;font-weight:500}
+.folder-wrap{
+	position: relative;
+}
+.central-title{
+	position: absolute;
+	top: 100%;          /* justo debajo */
+	margin-top: -40px;   /* misma distancia que los otros títulos */
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 18px;
+	font-weight: 500;
+	color: #111;
+}
+
+@media (max-width:900px){
+	.folder-icon{width:96px}
+	.folder-title{font-size:16px}
+	.folder-item.tl{left:4%;top:6%}
+	.folder-item.tr{right:4%;top:6%}
+	.folder-item.bl{left:4%;bottom:12%}
+	.folder-item.br{right:4%;bottom:12%}
+	.central-title{font-size:22px;bottom:8%}
+}
+
+@media (max-width:480px){
+	.folder-icon{width:72px}
+	.central-title{font-size:18px;bottom:10%}
+	.folder-item.tl{left:6%;top:4%}
+	.folder-item.tr{right:6%;top:4%}
+	.folder-item.bl{left:6%;bottom:20%}
+	.folder-item.br{right:6%;bottom:20%}
+}
+
+/* Depth: push top folders slightly back in Z when revealed */
+.folders-grid.revealed .folder-item.tl,
+.folders-grid.revealed .folder-item.tr { transform: translateZ(-80px) scale(0.88) translateY(6px); }
+.folders-grid.revealed .folder-item.bl,
+.folders-grid.revealed .folder-item.br { transform: translateZ(0px) scale(0.96) translateY(0px); }
+
