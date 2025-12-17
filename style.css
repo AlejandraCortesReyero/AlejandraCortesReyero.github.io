@@ -119,7 +119,7 @@ body{
 @media (max-width:900px){
 	.hero-inner{flex-direction:column;align-items:flex-start}
 	.title{font-size:56px}
-	.folder-wrap{width:260px;height:180px}
+	.folder-wrap{width:320px;height:220px}
 	.card{width:120px;height:150px}
 }
 
@@ -127,6 +127,77 @@ body{
 	body{padding:18px}
 	.title{font-size:44px}
 	.container{padding:0 8px}
+}
+
+/* MOBILE: stack central folder and show small folders as 2x2 grid centered */
+@media (max-width:480px){
+	.hero-inner{align-items:center;text-align:center}
+	/* make the central folder larger and centered */
+	.folder-wrap{width:320px;max-width:84vw;height:auto;margin:0 auto}
+	.folder-front,.folder-back{max-width:100%;height:auto}
+
+	 /* Position the internal project 'cards' so they sit visibly inside the big folder on mobile.
+		 Keep their original aspect ratio (no forced width/height) and only scale down via max-width. */
+	/* nudge the whole cards block a bit left and lift it so cards protrude above the folder top
+	   NOTE: give `.cards` an explicit height so percentage `top` on absolutely-positioned
+	   `.card-*` resolves correctly on mobile (otherwise percentages against an auto height
+	   containing block compute as 0 and `top` appears to have no effect). */
+	.cards{display:block;position:absolute;left:6%;top:8%;width:88%;height:160px;z-index:2;pointer-events:none}
+	/* slightly smaller on mobile so they fit better inside the folder */
+	.card{position:absolute;border-radius:6px;object-fit:contain;box-shadow:0 8px 20px rgba(0,0,0,0.12);transition:transform 260ms cubic-bezier(.2,.8,.2,1),opacity 220ms ease;max-width:32%;height:auto}
+	 /* tuned positions so the mini-cards are mostly behind the folder front (lower top values) */
+	/* move projects slightly lower so they sit more inside the folder on mobile
+	   and lower their 2D stacking so the folder front covers their bottoms */
+	.card-1{left:12%;top:15%;--r:-8deg;z-index:10;--z:120px}
+	.card-2{left:30%;top:15%;--r:-4deg;z-index:9;--z:115px}
+	.card-3{left:48%;top:30%;--r:6deg;z-index:9;--z:110px}
+	/* project 4 remains inside the folder toward the center */
+	.card-4{left:53%;top:10%;--r:8deg;--z:8px;z-index:6}
+
+
+
+	/* central title below the big folder, static flow */
+	.central-title{
+		position:static;
+		margin-top:18px;
+		transform:none;
+		left:auto;
+	}
+
+	/* When folders grid is revealed, switch to a centered flex/grid layout */
+	.folders-grid{
+		position:relative; /* relative so children flow */
+		transform:none;
+		opacity:1;
+		visibility:visible;
+		padding-top:12px;
+	}
+
+	.folders-inner{
+		display:flex;
+		flex-wrap:wrap;
+		gap:18px 36px;
+		justify-content:center;
+		align-items:center;
+		padding:8px 0 40px;
+		box-sizing:border-box;
+		width:100%;
+		max-width:420px;
+		margin:0 auto;
+	}
+
+	/* make folder items participate in flow instead of absolute positioning */
+	.folders-grid.revealed .folder-item{position:static;transform:none;opacity:1;display:flex;flex-direction:column;align-items:center;margin:0}
+	.folders-grid.revealed .folder-item.tl,
+	.folders-grid.revealed .folder-item.tr,
+	.folders-grid.revealed .folder-item.bl,
+	.folders-grid.revealed .folder-item.br{left:auto;right:auto;top:auto;bottom:auto}
+
+	.folder-icon{width:72px}
+	.folder-title{font-size:14px}
+
+	/* ensure the small folders keep the pop hover on mobile (if using pointer) but no absolute offset */
+	.folders-grid .folder-item:hover .folder-icon{transform:scale(1.04)}
 }
 
 /* Folders grid shown after launch - positioned around the central folder inside .hero */
@@ -143,13 +214,19 @@ body{
 .folder-item.br{right:6%;bottom:14%}
 .folder-icon{width:120px;height:auto;display:block}
 .folder-title{margin-top:10px;font-size:18px;color:#111;font-weight:500}
+.folder-item{cursor:pointer}
+.folder-icon{transition:transform 220ms cubic-bezier(.2,.8,.2,1)}
+
+.folders-grid .folder-item:hover{animation: pop 320ms cubic-bezier(.2,.8,.2,1) forwards}
+.folders-grid .folder-item:hover .folder-icon{transform:translateY(-8px) scale(1.04)}
+
 .folder-wrap{
 	position: relative;
 }
 .central-title{
 	position: absolute;
 	top: 100%;          /* justo debajo */
-	margin-top: -40px;   /* misma distancia que los otros títulos */
+	margin-top: -60px;   /* misma distancia que los otros títulos */
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 18px;
@@ -181,4 +258,45 @@ body{
 .folders-grid.revealed .folder-item.tr { transform: translateZ(-80px) scale(0.88) translateY(6px); }
 .folders-grid.revealed .folder-item.bl,
 .folders-grid.revealed .folder-item.br { transform: translateZ(0px) scale(0.96) translateY(0px); }
+
+/* Final override for mobile to ensure stacked flow (placed at end so it wins over earlier rules) */
+@media (max-width:480px){
+	.folders-grid{position:relative !important;inset:auto !important;transform:none !important;opacity:1 !important;visibility:visible !important}
+	.folders-grid.revealed{position:relative !important}
+	.folders-inner{display:flex !important;flex-wrap:wrap !important;gap:18px 36px !important;justify-content:center !important;align-items:center !important;width:100% !important;max-width:420px;margin:0 auto;padding:8px 0 40px}
+	.folders-grid.revealed .folder-item{position:static !important;transform:none !important;opacity:1 !important;display:flex !important;flex-direction:column !important;align-items:center !important;margin:0 !important}
+	.folders-grid.revealed .folder-item.tl,.folders-grid.revealed .folder-item.tr,.folders-grid.revealed .folder-item.bl,.folders-grid.revealed .folder-item.br{left:auto !important;right:auto !important;top:auto !important;bottom:auto !important}
+	.central-title{position:static !important;margin-top:18px !important;transform:none !important;left:auto !important}
+	.folder-wrap{width:320px !important;max-width:84vw !important;height:auto;margin:0 auto !important}
+	.folder-front,.folder-back{max-width:100% !important;height:auto !important}
+	.folder-icon{width:72px !important}
+	.folder-title{font-size:14px !important}
+}
+
+/* Tuning mobile to match the supplied 'asi' screenshot exactly */
+@media (max-width:480px){
+	/* make the big folder a fixed, centered width similar to the screenshot */
+	.folder-wrap{width:260px !important;max-width:84vw !important}
+	.folder-front,.folder-back{width:260px !important;height:auto;display:block;margin:0 auto}
+
+	/* clip any parts of the project cards that extend beyond the folder edges */
+	.folder-stack{overflow:hidden !important}
+
+	/* central title styling as in screenshot */
+	.central-title{position:static !important;margin-top:20px !important;font-size:22px !important;font-weight:700 !important;text-align:center !important}
+
+	/* arrange small folders in a 2x2 grid centered under the title */
+	.folders-inner{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:22px 36px !important;justify-items:center !important;align-items:start !important;padding:18px 0 40px !important;max-width:320px;margin:0 auto}
+	.folders-grid.revealed .folder-item{position:static !important;transform:none !important}
+
+	/* smaller folder icons and labels matching screenshot */
+	.folder-icon{width:56px !important}
+	.folder-title{font-size:14px !important;margin-top:10px !important}
+
+
+
+	/* spacing around the main hero to push content similar to screenshot */
+	.hero-inner{padding-top:24px;padding-bottom:24px}
+	.title{font-size:48px}
+}
 

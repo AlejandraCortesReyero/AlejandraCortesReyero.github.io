@@ -73,8 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					});
 
 						// After animations finished, insert 4 folders around the central folder (inside the hero)
-						const heroEl = document.querySelector('.hero');
-						const titles = ['Web Design', 'Brand Design', 'Product Design', 'Archviz'];
+						// append grid inside the hero's inner container so items appear directly
+						// after the folder-wrap (this keeps the small folders immediately
+						// below the big folder in the flow, especially on mobile)
+						const heroEl = document.querySelector('.hero .hero-inner') || document.querySelector('.hero');
+						const titles = ['Web Design', 'Brand Design', 'Product Design', '3D Stuff'];
 						const positions = ['tl', 'tr', 'bl', 'br'];
 						const grid = document.createElement('section');
 						grid.className = 'folders-grid revealed';
@@ -105,9 +108,22 @@ document.addEventListener('DOMContentLoaded', () => {
 						grid.appendChild(inner);
 
 						if (heroEl) {
-							// insert inside hero so the central folder remains visible
-							heroEl.appendChild(grid);
-							heroEl.appendChild(central);
+							// insert central title and grid just after the folderWrap so
+							// the title appears directly below the big folder and the
+							// small folders are just below the title (works well on mobile)
+							const insertAfter = (refNode, newNode) => {
+								if (refNode && refNode.parentNode) {
+									if (refNode.nextSibling) refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
+									else refNode.parentNode.appendChild(newNode);
+								} else {
+									refNode.parentNode && refNode.parentNode.appendChild(newNode);
+								}
+							};
+
+							// place central title immediately after the folderWrap
+							insertAfter(folderWrap, central);
+							// then place the grid (small folders) right after the title
+							insertAfter(central, grid);
 							// set a hash so back button can restore state without server routes
 							location.hash = '#folders';
 
