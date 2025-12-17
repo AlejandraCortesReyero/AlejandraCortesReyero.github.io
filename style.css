@@ -45,13 +45,22 @@ body{
 	50% { transform: scale(1.08); }
  100% { transform: scale(1.04); }
 }
-.folder-wrap:hover{animation: pop 320ms cubic-bezier(.2,.8,.2,1) forwards}
+
 
 /* Stack: back image, cards, front image */
 .folder-stack{position:relative;width:100%;height:auto;display:block;transform-style:preserve-3d;overflow:visible}
 .folder-back,.folder-front{display:block;width:100%;height:auto;object-fit:contain;pointer-events:none}
 
-.folder-front{position:absolute;left:0;right:0;bottom:0;z-index:20;transition:box-shadow 240ms ease}
+/* Ensure the folder (and its images) sit above the folders-grid and can be
+	hovered even when the grid is present. The grid should only accept pointer
+	events on the folder items themselves so it doesn't block hover on the big
+	folder behind it. */
+.folder-wrap{position:relative;z-index:30}
+.folders-grid{pointer-events:none}
+.folders-grid .folder-item{pointer-events:auto}
+.central-title{pointer-events:auto}
+
+.folder-front{position:absolute;left:0;right:0;bottom:0;z-index:20;transition:box-shadow 240ms ease, transform 220ms cubic-bezier(.2,.8,.2,1)}
 .folder-back{position:relative;z-index:1}
 
 /* Place cards inside the folder (between back and front) */
@@ -70,10 +79,26 @@ body{
 /* On hover combine the original rotation (--r) with translate/scale so rotation is preserved */
 .folder-wrap:hover .card{transform:rotate(var(--r, 0deg)) translateZ(var(--z, 0px)) translateY(-12px) scale(1.03)}
 
+/* Make the big folder images (back/front) respond to hover like the small folder icons
+   so the visible folder feels interactive. Use transform rather than animation to
+   avoid interfering with the launch flow. */
+.folder-back,.folder-front{transition:transform 220ms cubic-bezier(.2,.8,.2,1);transform-origin:50% 60%}
+.folder-wrap:hover .folder-back,
+.folder-wrap:hover .folder-front,
+.folder-wrap.pop .folder-back,
+.folder-wrap.pop .folder-front{
+	transform: translateY(-8px) scale(1.04);
+}
+
 /* Launch animation: when user clicks the folder, cards fly up with a fun arc + rotation and fade out */
 .folder-wrap.launched{pointer-events:none}
 /* Keep the folder front visible while files fly */
 .folder-wrap.launched .folder-front{opacity:1}
+
+/* Ensure the visible folder front also performs the pop with a slight delay
+   (so it's noticeable after the card launch animations). Use transform-origin
+   at the center-bottom so the folder 'pops' naturally from its base. */
+/* keep default launched front opacity/behavior defined elsewhere */
 
 /* Generic launch animation settings */
 .card.launch{animation-fill-mode:forwards;animation-duration:900ms;animation-timing-function:cubic-bezier(.2,.8,.2,1);opacity:1}
@@ -116,12 +141,6 @@ body{
 .search-bubble{background:rgba(255,255,255,0.9);padding:12px 18px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
 
 /* Responsive */
-@media (max-width:900px){
-	.hero-inner{flex-direction:column;align-items:flex-start}
-	.title{font-size:56px}
-	.folder-wrap{width:320px;height:220px}
-	.card{width:120px;height:150px}
-}
 
 @media (max-width:480px){
 	body{padding:18px}
@@ -234,15 +253,7 @@ body{
 	color: #111;
 }
 
-@media (max-width:900px){
-	.folder-icon{width:96px}
-	.folder-title{font-size:16px}
-	.folder-item.tl{left:4%;top:6%}
-	.folder-item.tr{right:4%;top:6%}
-	.folder-item.bl{left:4%;bottom:12%}
-	.folder-item.br{right:4%;bottom:12%}
-	.central-title{font-size:22px;bottom:8%}
-}
+/* tablet breakpoint removed — desktop and mobile only */
 
 @media (max-width:480px){
 	.folder-icon{width:72px}
@@ -282,8 +293,10 @@ body{
 	/* clip any parts of the project cards that extend beyond the folder edges */
 	.folder-stack{overflow:hidden !important}
 
-	/* central title styling as in screenshot */
-	.central-title{position:static !important;margin-top:20px !important;font-size:22px !important;font-weight:700 !important;text-align:center !important}
+	 /* central title styling as in screenshot - keep typography consistent with desktop */
+	 /* Use the same font-size/weight as the desktop central title to avoid
+		 unexpected font changes between breakpoints */
+	 .central-title{position:static !important;margin-top:20px !important;font-size:18px !important;font-weight:500 !important;text-align:center !important}
 
 	/* arrange small folders in a 2x2 grid centered under the title */
 	.folders-inner{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:22px 36px !important;justify-items:center !important;align-items:start !important;padding:18px 0 40px !important;max-width:320px;margin:0 auto}
@@ -298,5 +311,15 @@ body{
 	/* spacing around the main hero to push content similar to screenshot */
 	.hero-inner{padding-top:24px;padding-bottom:24px}
 	.title{font-size:48px}
+}
+
+/* Center footer search bubble on mobile so the email bubble sits exactly centered */
+@media (max-width:480px){
+	/* remove horizontal padding and force full-width container so centering is exact */
+	.site-footer .container { display:flex; justify-content:center; padding:0 !important; width:100% !important; max-width:100% !important; }
+	/* center the small-note content and give a small vertical padding */
+	.site-footer .small-note { justify-content:center; width:100%; padding:12px 0; }
+	/* ensure the bubble itself is centered inside its flex parent; nudge left slightly to visually center */
+	.search-bubble { margin:0 auto; display:inline-block; }
 }
 

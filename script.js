@@ -22,6 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
 	const hero = document.querySelector('.hero');
 	if (!folderWrap || !hero) return;
 
+	// Add hover/touch helpers so the big folder shows the same 'pop' on pointer
+	// interactions. This ensures touch devices can get a visual pop as well.
+	(function enableFolderPopInteraction(el){
+		// mouseenter / mouseleave for desktop
+		el.addEventListener('mouseenter', () => {
+			if (!el.classList.contains('launched')) el.classList.add('pop');
+		});
+		el.addEventListener('mouseleave', () => {
+			el.classList.remove('pop');
+		});
+
+		// touchstart: add class briefly (remove after animation duration)
+		el.addEventListener('touchstart', () => {
+			if (el.classList.contains('launched')) return;
+			el.classList.add('pop');
+			if (el._popTimeout) clearTimeout(el._popTimeout);
+			el._popTimeout = setTimeout(() => el.classList.remove('pop'), 380);
+		}, {passive: true});
+	})(folderWrap);
+
 		folderWrap.addEventListener('click', async (e) => {
 		// prevent repeated launches
 		if (folderWrap.classList.contains('launched')) return;
@@ -72,7 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
 						}, maxWait);
 					});
 
-						// After animations finished, insert 4 folders around the central folder (inside the hero)
+							// After animations finished, re-enable interactions on the big folder so
+							// hover/pop works (we previously added the 'launched' class to block
+							// interactions during the animation). Removing it here preserves the
+							// launch state visually but allows hover effects on the folder images.
+							folderWrap.classList.remove('launched');
+
+							// Ensure taps on mobile after the launch trigger the same pop visual.
+							// Attach a touchstart listener that only shows the pop and does not
+							// re-trigger the launch sequence.
+							function showPopOnTapOnce(ev) {
+								if (folderWrap.classList.contains('launched')) return;
+								folderWrap.classList.add('pop');
+								if (folderWrap._popTimeout) clearTimeout(folderWrap._popTimeout);
+								folderWrap._popTimeout = setTimeout(() => folderWrap.classList.remove('pop'), 420);
+							}
+
+							// Use passive listener so it doesn't block scrolling.
+							folderWrap.addEventListener('touchstart', showPopOnTapOnce, {passive: true});
+
+							// After animations finished, insert 4 folders around the central folder (inside the hero)
 						// append grid inside the hero's inner container so items appear directly
 						// after the folder-wrap (this keeps the small folders immediately
 						// below the big folder in the flow, especially on mobile)
