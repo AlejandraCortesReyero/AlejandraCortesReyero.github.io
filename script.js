@@ -1,8 +1,130 @@
 // Small interaction: slight parallax on folder cards
 // Disable tilt/parallax: keep only the CSS 'pop' hover animation.
+// Utility: create the central title + folders grid and insert after the folderWrap
+function createFoldersGrid(folderWrap) {
+	if (!folderWrap) return;
+	// avoid creating duplicate grids
+	if (document.querySelector('.folders-grid')) return;
+	// mark folder as showing the external grid so internal cards can be hidden via CSS
+	folderWrap.classList.add('grid-open');
+	const heroEl = document.querySelector('.hero .hero-inner') || document.querySelector('.hero');
+	const titles = ['Web Design', 'Brand Design', 'Product Design', '3D Stuff'];
+	const positions = ['tl', 'tr', 'bl', 'br'];
+	const grid = document.createElement('section');
+	grid.className = 'folders-grid revealed';
+	const inner = document.createElement('div');
+	inner.className = 'folders-inner';
+
+	// create absolute-positioned folder items with positional classes
+	titles.forEach((t, i) => {
+		const item = document.createElement('div');
+		item.className = `folder-item ${positions[i]}`;
+		const img = document.createElement('img');
+		img.className = 'folder-icon';
+		img.src = 'CONTENT/partedetráscarpeta.png';
+		img.alt = t;
+		const cap = document.createElement('div');
+		cap.className = 'folder-title';
+		cap.textContent = t;
+		item.appendChild(img);
+		item.appendChild(cap);
+
+		// map folder titles to target pages
+		const pageMap = {
+			'Web Design': 'web-design.html',
+			'Brand Design': 'brand-design.html',
+			'Product Design': 'product-design.html',
+			'3D Stuff': '3d-stuff.html'
+		};
+
+		// navigate to the appropriate page when clicking a small folder
+		item.addEventListener('click', (ev) => {
+			const target = pageMap[t] || 'index.html';
+			window.location.href = target;
+		});
+
+		inner.appendChild(item);
+	});
+
+	// central title near the big folder
+	const central = document.createElement('div');
+	central.className = 'central-title';
+	central.textContent = 'About me';
+
+	grid.appendChild(inner);
+
+	if (heroEl) {
+		const insertAfter = (refNode, newNode) => {
+			if (refNode && refNode.parentNode) {
+				if (refNode.nextSibling) refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
+				else refNode.parentNode.appendChild(newNode);
+			} else {
+				refNode.parentNode && refNode.parentNode.appendChild(newNode);
+			}
+		};
+
+		insertAfter(folderWrap, central);
+		insertAfter(central, grid);
+		// set a hash so back button can restore state without server routes
+		location.hash = '#folders';
+
+		// handle back navigation: remove grid and restore hero when hash changes/popstate
+		function restoreFromFolders() {
+			if (grid && grid.parentNode) grid.parentNode.removeChild(grid);
+			if (central && central.parentNode) central.parentNode.removeChild(central);
+			// remove launch markers so cards can be launched again if needed
+			folderWrap.classList.remove('launched');
+			// remove the grid-open marker so internal cards become visible again
+			folderWrap.classList.remove('grid-open');
+			const cardsAll = folderWrap.querySelectorAll('.card');
+			cardsAll.forEach(c => c.classList.remove('launch'));
+			// clean up listeners
+			window.removeEventListener('hashchange', onHashChange);
+			window.removeEventListener('popstate', onPopState);
+		}
+
+		function onHashChange() {
+			if (location.hash !== '#folders') restoreFromFolders();
+		}
+
+		function onPopState(ev) {
+			if (location.hash !== '#folders') restoreFromFolders();
+		}
+
+		window.addEventListener('hashchange', onHashChange);
+		window.addEventListener('popstate', onPopState);
+	}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-			// If user reloads with a hash like #folders or #feature, remove the hash so the main hero shows
-			if (window.location.hash === '#folders' || window.location.hash === '#feature') {
+			// If user lands with #folders, decide whether to reveal the grid.
+			// If the navigation was a full page reload, prefer the default hero
+			// (only the big folder) — in that case remove the hash so the page
+			// shows the initial state. If the navigation is not a reload (e.g.
+			// coming back from a project page via a link), reveal the grid.
+			if (window.location.hash === '#folders') {
+				// detect navigation type (Navigation Timing API)
+				let navType = '';
+				try {
+					const entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+					if (entries && entries.length) navType = entries[0].type;
+					else if (performance.navigation) navType = performance.navigation.type === 1 ? 'reload' : 'navigate';
+				} catch (e) {
+					navType = '';
+				}
+
+				if (navType === 'reload') {
+					// user refreshed — remove the hash and show the default hero
+					history.replaceState(null, '', window.location.pathname + window.location.search);
+				} else {
+					// not a reload: show the expanded folders grid
+					setTimeout(() => {
+						const folderWrap = document.querySelector('.folder-wrap');
+						if (folderWrap) createFoldersGrid(folderWrap);
+					}, 60);
+				}
+			} else if (window.location.hash === '#feature') {
+				// preserve previous behavior for other hashes
 				history.replaceState(null, '', window.location.pathname + window.location.search);
 			}
 	// Ensure any inline transforms from previous runs are cleared
@@ -111,85 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
 							// Use passive listener so it doesn't block scrolling.
 							folderWrap.addEventListener('touchstart', showPopOnTapOnce, {passive: true});
 
-							// After animations finished, insert 4 folders around the central folder (inside the hero)
-						// append grid inside the hero's inner container so items appear directly
-						// after the folder-wrap (this keeps the small folders immediately
-						// below the big folder in the flow, especially on mobile)
-						const heroEl = document.querySelector('.hero .hero-inner') || document.querySelector('.hero');
-						const titles = ['Web Design', 'Brand Design', 'Product Design', '3D Stuff'];
-						const positions = ['tl', 'tr', 'bl', 'br'];
-						const grid = document.createElement('section');
-						grid.className = 'folders-grid revealed';
-						const inner = document.createElement('div');
-						inner.className = 'folders-inner';
-
-						// create absolute-positioned folder items with positional classes
-						titles.forEach((t, i) => {
-							const item = document.createElement('div');
-							item.className = `folder-item ${positions[i]}`;
-							const img = document.createElement('img');
-							img.className = 'folder-icon';
-							img.src = 'CONTENT/partedetráscarpeta.png';
-							img.alt = t;
-							const cap = document.createElement('div');
-							cap.className = 'folder-title';
-							cap.textContent = t;
-							item.appendChild(img);
-							item.appendChild(cap);
-							inner.appendChild(item);
-						});
-
-						// central title near the big folder
-						const central = document.createElement('div');
-						central.className = 'central-title';
-						central.textContent = 'About me';
-
-						grid.appendChild(inner);
-
-						if (heroEl) {
-							// insert central title and grid just after the folderWrap so
-							// the title appears directly below the big folder and the
-							// small folders are just below the title (works well on mobile)
-							const insertAfter = (refNode, newNode) => {
-								if (refNode && refNode.parentNode) {
-									if (refNode.nextSibling) refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
-									else refNode.parentNode.appendChild(newNode);
-								} else {
-									refNode.parentNode && refNode.parentNode.appendChild(newNode);
-								}
-							};
-
-							// place central title immediately after the folderWrap
-							insertAfter(folderWrap, central);
-							// then place the grid (small folders) right after the title
-							insertAfter(central, grid);
-							// set a hash so back button can restore state without server routes
-							location.hash = '#folders';
-
-							// handle back navigation: remove grid and restore hero when hash changes/popstate
-							function restoreFromFolders() {
-								if (grid && grid.parentNode) grid.parentNode.removeChild(grid);
-								if (central && central.parentNode) central.parentNode.removeChild(central);
-								// remove launch markers so cards can be launched again if needed
-								folderWrap.classList.remove('launched');
-								const cardsAll = folderWrap.querySelectorAll('.card');
-								cardsAll.forEach(c => c.classList.remove('launch'));
-								// clean up listeners
-								window.removeEventListener('hashchange', onHashChange);
-								window.removeEventListener('popstate', onPopState);
-							}
-
-							function onHashChange() {
-								if (location.hash !== '#folders') restoreFromFolders();
-							}
-
-							function onPopState(ev) {
-								if (location.hash !== '#folders') restoreFromFolders();
-							}
-
-							window.addEventListener('hashchange', onHashChange);
-							window.addEventListener('popstate', onPopState);
-						}
+							// Reveal grid & central title (reused function)
+							createFoldersGrid(folderWrap);
 	});
 });
 
