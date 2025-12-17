@@ -21,7 +21,7 @@ function createFoldersGrid(folderWrap) {
 		item.className = `folder-item ${positions[i]}`;
 		const img = document.createElement('img');
 		img.className = 'folder-icon';
-		img.src = 'CONTENT/partedetráscarpeta.png';
+	img.src = 'CONTENT/partedetrascarpeta.png';
 		img.alt = t;
 		const cap = document.createElement('div');
 		cap.className = 'folder-title';
@@ -97,32 +97,13 @@ function createFoldersGrid(folderWrap) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-			// If user lands with #folders, decide whether to reveal the grid.
-			// If the navigation was a full page reload, prefer the default hero
-			// (only the big folder) — in that case remove the hash so the page
-			// shows the initial state. If the navigation is not a reload (e.g.
-			// coming back from a project page via a link), reveal the grid.
+			// If user lands with #folders, reveal the folders grid automatically.
+			// Keep this simple so links like https://.../#folders work reliably on GitHub Pages.
 			if (window.location.hash === '#folders') {
-				// detect navigation type (Navigation Timing API)
-				let navType = '';
-				try {
-					const entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
-					if (entries && entries.length) navType = entries[0].type;
-					else if (performance.navigation) navType = performance.navigation.type === 1 ? 'reload' : 'navigate';
-				} catch (e) {
-					navType = '';
-				}
-
-				if (navType === 'reload') {
-					// user refreshed — remove the hash and show the default hero
-					history.replaceState(null, '', window.location.pathname + window.location.search);
-				} else {
-					// not a reload: show the expanded folders grid
-					setTimeout(() => {
-						const folderWrap = document.querySelector('.folder-wrap');
-						if (folderWrap) createFoldersGrid(folderWrap);
-					}, 60);
-				}
+				setTimeout(() => {
+					const folderWrap = document.querySelector('.folder-wrap');
+					if (folderWrap) createFoldersGrid(folderWrap);
+				}, 60);
 			} else if (window.location.hash === '#feature') {
 				// preserve previous behavior for other hashes
 				history.replaceState(null, '', window.location.pathname + window.location.search);

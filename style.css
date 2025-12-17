@@ -228,6 +228,8 @@ body{
 .hero{position:relative;perspective:1200px;-webkit-perspective:1200px}
 .folders-grid{position:absolute;inset:0;background:transparent;padding:0;margin:0;min-height:0;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:auto;transform-style:preserve-3d}
 .folders-grid.revealed{opacity:1;visibility:visible;transform:none;transition:opacity 420ms ease,transform 420ms ease}
+/* When revealed, ensure the grid sits above the folder and accepts pointer events */
+.folders-grid.revealed{pointer-events:auto !important;z-index:40}
 .folders-inner{position:relative;width:100%;height:100%}
 .folders-row{position:relative;width:100%;height:100%}
 .folder-item{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translateZ(0px) translateY(0);transition:transform 520ms cubic-bezier(.2,.8,.2,1), opacity 420ms ease}
@@ -329,9 +331,10 @@ body{
 	/* ensure the bubble itself is centered inside its flex parent */
 	.search-bubble { margin:0 auto; display:inline-block; }
 
-	/* Ensure the small folders grid does not intercept pointer events over the big folder
-	   (sometimes the grid is inserted in DOM over the folder and blocks touch/hover). */
-	.folders-grid{pointer-events:none !important}
+	 /* Ensure the small folders grid does not intercept pointer events over the big folder
+		 (unless it is revealed) — this prevents it blocking hover on the main folder.
+		 When the grid is visible it will have the `.revealed` class and remain interactive. */
+	 .folders-grid:not(.revealed){pointer-events:none !important}
 	.folders-grid .folder-item{pointer-events:auto !important}
 
 	/* Make sure the big folder is on top so touch events reach it reliably */
