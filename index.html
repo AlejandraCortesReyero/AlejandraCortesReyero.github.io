@@ -1,55 +1,226 @@
-<!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Portfolio — Inicio</title>
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alejandra Cortés Reyero Portfolio</title>
 
-		<main class="page">
-			<header class="site-header">
-				<div class="container">
-					<div class="logo">Alejandra Cortés Reyero</div>
-					<nav class="meta">Portfolio Creativo</nav>
-				</div>
-			</header>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-					<section class="hero">
-						<div class="container hero-inner centered">
-							<h1 class="title"><span>PORT</span><em>folio</em></h1>
-							<p class="subtitle">web designer · brand designer · product designer · 3D artist</p>
-						
-							<div class="folder-wrap">
-								<div class="folder-stack">
-									<img class="folder-back" src="CONTENT/partedetrascarpeta.png" alt="parte detrás" />
+<body>
 
-									<div class="cards">
-										<img src="CONTENT/proyecto1.png" alt="p1" class="card card-1" data-rot="-10" />
-										<img src="CONTENT/proyecto2.png" alt="p2" class="card card-2" data-rot="6" />
-										<img src="CONTENT/proyecto3.png" alt="p3" class="card card-3" data-rot="-4" />
-										<img src="CONTENT/proyecto4.png" alt="p4" class="card card-4" data-rot="8" />
-									</div>
+  <!-- HERO -->
+  <section class="hero section">
+    <div class="hero-text hero-left reveal">
+      <h1>Hello world!</h1>
 
-									<img class="folder-front" src="CONTENT/partedelantecarpeta.png" alt="parte delante" />
-									
-								</div>
-							</div>
-						</div>
-					</section>
+      <p class="hero-bottom-text">
+        Right now, I work in UDIT's Research Department as a Producer and Team Manager,
+        helping coordinate projects and support the team throughout the creative process.
+      </p>
+    </div>
+
+    <div class="id-holder reveal">
+      <img src="assets/Colgante.png" alt="Alejandra ID card" class="id-card" />
+    </div>
+
+    <div class="hero-text hero-right reveal">
+      <p>
+        I'm a Video Game Design student who loves web design and production.
+        I'm the kind of person who enjoys both designing and making sure everything
+        comes together behind the scenes.
+      </p>
+
+      <h2>I’m Alejandra<br />Cortés Reyero</h2>
+    </div>
+  </section>
 
 
-			<footer class="site-footer">
-				<div class="container small-note">
-					<div class="search-bubble">alejandracortesreyero@gmail.com</div>
-				</div>
-			</footer>
-		</main>
+  <!-- QUOTE -->
+  <section class="quote-section section reveal">
 
-		<script src="script.js"></script>
-	</body>
-	</html>
+  <img 
+    src="assets/comillasarriba.png" 
+    alt="" 
+    class="quote-img quote-img-top"
+  >
 
+  <div class="quote-content">
+    <h2>
+      When it feels scary to jump, that is exactly when you jump.
+      Otherwise, you end up staying in the same place your whole life.
+      And that I can't do.
+    </h2>
+
+    <p>- Abel Morales, A Most Violent Year (2014)</p>
+  </div>
+
+  <img 
+    src="assets/comillasabajo.png" 
+    alt="" 
+    class="quote-img quote-img-bottom"
+  >
+
+</section>
+
+
+  <!-- PROJECTS -->
+  <section class="projects-section section">
+    <h2 class="section-title reveal">
+      Check out some of my<br />
+      best ideas.
+    </h2>
+
+    <div class="projects-grid reveal">
+
+      <article class="project-card">
+        <div class="stack">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <img src="assets/project-web.png" alt="Web Design project" />
+        </div>
+        <h3>Web Design</h3>
+      </article>
+
+      <article class="project-card">
+        <div class="stack">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <img src="assets/project-archviz.png" alt="Arch-Viz project" />
+        </div>
+        <h3>Arch-Viz</h3>
+      </article>
+
+      <article class="project-card">
+        <div class="stack">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <img src="assets/project-3d.png" alt="3D Models project" />
+        </div>
+        <h3>3D Models</h3>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- DRAG & DROP -->
+  <section class="drag-section section">
+    <h2 class="drag-title reveal">
+      Learn more about me.<br />
+      Just drag & drop.
+    </h2>
+
+    <div class="drag-stage reveal">
+
+      <img
+        src="assets/tape.png"
+        alt="Tape"
+        class="drag-item tape"
+        data-modal="tape"
+        draggable="false"
+      />
+
+      <img
+        src="assets/camera.png"
+        alt="Camera"
+        class="drag-item camera"
+        data-modal="camera"
+        draggable="false"
+      />
+
+      <img
+        src="assets/cv.png"
+        alt="CV"
+        class="drag-item cv"
+        data-modal="cv"
+        draggable="false"
+      />
+
+      <img
+        src="assets/gum.png"
+        alt="Bubble gum"
+        class="drag-item gum"
+        data-modal="gum"
+        draggable="false"
+      />
+
+      <img
+        src="assets/laptop.png"
+        alt="Laptop"
+        class="drag-item laptop"
+        data-modal="laptop"
+        draggable="false"
+      />
+
+      <div class="basket-drop-zone" id="basketDropZone">
+        <img src="assets/basket.png" alt="Basket" class="basket" />
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section class="contact-section section">
+    <div class="contact-marquee">
+      <div class="marquee-track">
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+      </div>
+
+      <div class="marquee-track">
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+        <span>CONTACT ME</span>
+        <span>•</span>
+      </div>
+    </div>
+
+    <div class="contact-content reveal">
+      <img src="assets/phone.png" alt="Red phone" class="phone" />
+
+      <div class="contact-info">
+        <h2>Let’s talk.</h2>
+
+        <a href="mailto:alejandra@email.com">alejandra@email.com</a>
+        <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- POPUP -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">×</button>
+      <h2 id="modalTitle"></h2>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

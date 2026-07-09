@@ -1,221 +1,249 @@
-// Small interaction: slight parallax on folder cards
-// Disable tilt/parallax: keep only the CSS 'pop' hover animation.
-// Utility: create the central title + folders grid and insert after the folderWrap
-function createFoldersGrid(folderWrap) {
-	if (!folderWrap) return;
-	// avoid creating duplicate grids
-	if (document.querySelector('.folders-grid')) return;
-	// mark folder as showing the external grid so internal cards can be hidden via CSS
-	folderWrap.classList.add('grid-open');
-	const heroEl = document.querySelector('.hero .hero-inner') || document.querySelector('.hero');
-	const titles = ['Web Design', 'Brand Design', 'Product Design', '3D Stuff'];
-	const positions = ['tl', 'tr', 'bl', 'br'];
-	const grid = document.createElement('section');
-	grid.className = 'folders-grid revealed';
-	const inner = document.createElement('div');
-	inner.className = 'folders-inner';
+// -------------------------------
+// POPUP CONTENT
+// -------------------------------
 
-	// create absolute-positioned folder items with positional classes
-	titles.forEach((t, i) => {
-		const item = document.createElement('div');
-		item.className = `folder-item ${positions[i]}`;
-		const img = document.createElement('img');
-		img.className = 'folder-icon';
-	img.src = 'CONTENT/partedetrascarpeta.png';
-		img.alt = t;
-		const cap = document.createElement('div');
-		cap.className = 'folder-title';
-		cap.textContent = t;
-		item.appendChild(img);
-		item.appendChild(cap);
+const modalContent = {
+  tape: {
+    title: "My references",
+    text:
+      "I love collecting visual references, music, film moments and tiny details that help me build a mood before starting a project."
+  },
 
-		// map folder titles to target pages
-		const pageMap = {
-			'Web Design': 'web-design.html',
-			'Brand Design': 'brand-design.html',
-			'Product Design': 'product-design.html',
-			'3D Stuff': '3d-stuff.html'
-		};
+  camera: {
+    title: "My visual side",
+    text:
+      "I enjoy creating visuals that feel personal, clean and memorable. I care a lot about mood, composition and the little things that make a design feel alive."
+  },
 
-		// navigate to the appropriate page when clicking a small folder
-		item.addEventListener('click', (ev) => {
-			const target = pageMap[t] || 'index.html';
-			window.location.href = target;
-		});
+  cv: {
+    title: "My experience",
+    text:
+      "I currently work in UDIT's Research Department as a Producer and Team Manager, coordinating creative teams and helping projects move forward."
+  },
 
-		inner.appendChild(item);
-	});
+  gum: {
+    title: "My personality",
+    text:
+      "I like playful ideas, bold visuals and projects that do not feel too serious. I enjoy mixing clean design with unexpected details."
+  },
 
-	// central title near the big folder
-	const central = document.createElement('div');
-	central.className = 'central-title';
-	central.textContent = 'About me';
+  laptop: {
+    title: "What I do",
+    text:
+      "I work across web design, production, project management, UI ideas, 3D visuals and creative direction. Basically, I like making things happen."
+  }
+};
 
-	grid.appendChild(inner);
 
-	if (heroEl) {
-		const insertAfter = (refNode, newNode) => {
-			if (refNode && refNode.parentNode) {
-				if (refNode.nextSibling) refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
-				else refNode.parentNode.appendChild(newNode);
-			} else {
-				refNode.parentNode && refNode.parentNode.appendChild(newNode);
-			}
-		};
+// -------------------------------
+// MODAL
+// -------------------------------
 
-		insertAfter(folderWrap, central);
-		insertAfter(central, grid);
-		// set a hash so back button can restore state without server routes
-		location.hash = '#folders';
+const modalOverlay = document.getElementById("modalOverlay");
+const modalClose = document.getElementById("modalClose");
+const modalTitle = document.getElementById("modalTitle");
+const modalText = document.getElementById("modalText");
 
-		// handle back navigation: remove grid and restore hero when hash changes/popstate
-		function restoreFromFolders() {
-			if (grid && grid.parentNode) grid.parentNode.removeChild(grid);
-			if (central && central.parentNode) central.parentNode.removeChild(central);
-			// remove launch markers so cards can be launched again if needed
-			folderWrap.classList.remove('launched');
-			// remove the grid-open marker so internal cards become visible again
-			folderWrap.classList.remove('grid-open');
-			const cardsAll = folderWrap.querySelectorAll('.card');
-			cardsAll.forEach(c => c.classList.remove('launch'));
-			// clean up listeners
-			window.removeEventListener('hashchange', onHashChange);
-			window.removeEventListener('popstate', onPopState);
-		}
+function openModal(type) {
+  const content = modalContent[type];
 
-		function onHashChange() {
-			if (location.hash !== '#folders') restoreFromFolders();
-		}
+  if (!content) return;
 
-		function onPopState(ev) {
-			if (location.hash !== '#folders') restoreFromFolders();
-		}
+  modalTitle.textContent = content.title;
+  modalText.textContent = content.text;
 
-		window.addEventListener('hashchange', onHashChange);
-		window.addEventListener('popstate', onPopState);
-	}
+  modalOverlay.classList.add("is-open");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-			// If user lands with #folders, reveal the folders grid automatically.
-			// Keep this simple so links like https://.../#folders work reliably on GitHub Pages.
-			if (window.location.hash === '#folders') {
-				setTimeout(() => {
-					const folderWrap = document.querySelector('.folder-wrap');
-					if (folderWrap) createFoldersGrid(folderWrap);
-				}, 60);
-			} else if (window.location.hash === '#feature') {
-				// preserve previous behavior for other hashes
-				history.replaceState(null, '', window.location.pathname + window.location.search);
-			}
-	// Ensure any inline transforms from previous runs are cleared
-	const stack = document.querySelector('.folder-stack');
-	if (stack) stack.style.transform = '';
-	const cards = document.querySelectorAll('.card');
-	cards.forEach(c => { c.style.transform = ''; });
-	// No mousemove listeners — animation handled purely by CSS on :hover
+function closeModal() {
+  modalOverlay.classList.remove("is-open");
+}
+
+modalClose.addEventListener("click", closeModal);
+
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === modalOverlay) {
+    closeModal();
+  }
 });
 
-// Click interaction: expand folder and transform cards into folders around it
-// (click-to-open feature removed)
-
-// New interaction: on click, launch cards upwards and scroll page down to next section
-document.addEventListener('DOMContentLoaded', () => {
-	const folderWrap = document.querySelector('.folder-wrap');
-	const hero = document.querySelector('.hero');
-	if (!folderWrap || !hero) return;
-
-	// Add hover/touch helpers so the big folder shows the same 'pop' on pointer
-	// interactions. This ensures touch devices can get a visual pop as well.
-	(function enableFolderPopInteraction(el){
-		// mouseenter / mouseleave for desktop
-		el.addEventListener('mouseenter', () => {
-			if (!el.classList.contains('launched')) el.classList.add('pop');
-		});
-		el.addEventListener('mouseleave', () => {
-			el.classList.remove('pop');
-		});
-
-		// touchstart: add class briefly (remove after animation duration)
-		el.addEventListener('touchstart', () => {
-			if (el.classList.contains('launched')) return;
-			el.classList.add('pop');
-			if (el._popTimeout) clearTimeout(el._popTimeout);
-			el._popTimeout = setTimeout(() => el.classList.remove('pop'), 380);
-		}, {passive: true});
-	})(folderWrap);
-
-		folderWrap.addEventListener('click', async (e) => {
-		// prevent repeated launches
-		if (folderWrap.classList.contains('launched')) return;
-		folderWrap.classList.add('launched');
-
-
-
-		const cards = folderWrap.querySelectorAll('.card');
-		cards.forEach((c, i) => {
-			// trigger reflow to ensure transition applies
-			// eslint-disable-next-line no-unused-expressions
-			c.offsetWidth;
-			c.classList.add('launch');
-		});
-
-				// wait until animations finish, then open the separate feature page
-					// Wait for the card animations to finish (listen to animationend on cards)
-					const maxWait = 1600; // ms fallback in case events don't fire
-					await new Promise((resolve) => {
-						let finished = 0;
-						const total = cards.length;
-						let resolved = false;
-
-						function tryResolve() {
-							if (!resolved && finished >= total) {
-								resolved = true;
-								resolve();
-							}
-						}
-
-						cards.forEach((c) => {
-							function onEnd(e) {
-								if (e.animationName && e.animationName.startsWith('launch')) {
-									finished += 1;
-									c.removeEventListener('animationend', onEnd);
-									tryResolve();
-								}
-							}
-							c.addEventListener('animationend', onEnd);
-						});
-
-						// fallback timeout
-						setTimeout(() => {
-							if (!resolved) {
-								resolved = true;
-								resolve();
-							}
-						}, maxWait);
-					});
-
-							// After animations finished, re-enable interactions on the big folder so
-							// hover/pop works (we previously added the 'launched' class to block
-							// interactions during the animation). Removing it here preserves the
-							// launch state visually but allows hover effects on the folder images.
-							folderWrap.classList.remove('launched');
-
-							// Ensure taps on mobile after the launch trigger the same pop visual.
-							// Attach a touchstart listener that only shows the pop and does not
-							// re-trigger the launch sequence.
-							function showPopOnTapOnce(ev) {
-								if (folderWrap.classList.contains('launched')) return;
-								folderWrap.classList.add('pop');
-								if (folderWrap._popTimeout) clearTimeout(folderWrap._popTimeout);
-								folderWrap._popTimeout = setTimeout(() => folderWrap.classList.remove('pop'), 420);
-							}
-
-							// Use passive listener so it doesn't block scrolling.
-							folderWrap.addEventListener('touchstart', showPopOnTapOnce, {passive: true});
-
-							// Reveal grid & central title (reused function)
-							createFoldersGrid(folderWrap);
-	});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal();
+  }
 });
+
+
+// -------------------------------
+// DRAG & DROP
+// -------------------------------
+
+const dragItems = document.querySelectorAll(".drag-item");
+const dropZone = document.getElementById("basketDropZone");
+const dragStage = document.querySelector(".drag-stage");
+
+let activeDrag = null;
+
+dragItems.forEach((item) => {
+  item.addEventListener("pointerdown", startDrag);
+});
+
+function startDrag(event) {
+  const item = event.currentTarget;
+
+  item.setPointerCapture(event.pointerId);
+
+  const itemRect = item.getBoundingClientRect();
+
+  activeDrag = {
+    item,
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    startLeft: item.offsetLeft,
+    startTop: item.offsetTop,
+    width: itemRect.width,
+    height: itemRect.height,
+    originalLeft: item.dataset.originalLeft || item.offsetLeft,
+    originalTop: item.dataset.originalTop || item.offsetTop
+  };
+
+  if (!item.dataset.originalLeft) {
+    item.dataset.originalLeft = item.offsetLeft;
+    item.dataset.originalTop = item.offsetTop;
+  }
+
+  item.classList.add("dragging");
+
+  window.addEventListener("pointermove", moveDrag);
+  window.addEventListener("pointerup", endDrag);
+}
+
+function moveDrag(event) {
+  if (!activeDrag) return;
+
+  const { item, startX, startY, startLeft, startTop } = activeDrag;
+
+  const deltaX = event.clientX - startX;
+  const deltaY = event.clientY - startY;
+
+  item.style.left = `${startLeft + deltaX}px`;
+  item.style.top = `${startTop + deltaY}px`;
+
+  if (isInsideDropZone(event.clientX, event.clientY)) {
+    dropZone.classList.add("is-active");
+  } else {
+    dropZone.classList.remove("is-active");
+  }
+}
+
+function endDrag(event) {
+  if (!activeDrag) return;
+
+  const { item } = activeDrag;
+
+  item.classList.remove("dragging");
+  dropZone.classList.remove("is-active");
+
+  const droppedCorrectly = isInsideDropZone(event.clientX, event.clientY);
+
+  if (droppedCorrectly) {
+    placeInsideBasket(item, event.clientX, event.clientY);
+    item.classList.add("dropped");
+
+    setTimeout(() => {
+      item.classList.remove("dropped");
+    }, 500);
+
+    openModal(item.dataset.modal);
+  } else {
+    sendBackHome(item);
+  }
+
+  window.removeEventListener("pointermove", moveDrag);
+  window.removeEventListener("pointerup", endDrag);
+
+  activeDrag = null;
+}
+
+function isInsideDropZone(x, y) {
+  const rect = dropZone.getBoundingClientRect();
+
+  return (
+    x >= rect.left &&
+    x <= rect.right &&
+    y >= rect.top &&
+    y <= rect.bottom
+  );
+}
+
+function placeInsideBasket(item, pointerX, pointerY) {
+  const stageRect = dragStage.getBoundingClientRect();
+
+  const newLeft = pointerX - stageRect.left - item.offsetWidth / 2;
+  const newTop = pointerY - stageRect.top - item.offsetHeight / 2;
+
+  item.style.left = `${newLeft}px`;
+  item.style.top = `${newTop}px`;
+  item.style.zIndex = "20";
+}
+
+function sendBackHome(item) {
+  item.style.transition = "left 0.35s ease, top 0.35s ease, transform 0.25s ease";
+
+  item.style.left = `${item.dataset.originalLeft}px`;
+  item.style.top = `${item.dataset.originalTop}px`;
+
+  setTimeout(() => {
+    item.style.transition = "";
+  }, 360);
+}
+
+
+// -------------------------------
+// SCROLL REVEAL
+// -------------------------------
+
+const revealElements = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      }
+    });
+  },
+  {
+    threshold: 0.18
+  }
+);
+
+revealElements.forEach((element) => {
+  revealObserver.observe(element);
+});
+
+// -------------------------------
+// ID CARD SWING ANIMATION
+// -------------------------------
+
+const idHolder = document.querySelector(".id-holder");
+const idCard = document.querySelector(".id-card");
+
+let isSwinging = false;
+
+idHolder.addEventListener("mouseenter", () => {
+  // Si ya está animándose, no hace nada
+  if (isSwinging) return;
+
+  isSwinging = true;
+  idCard.classList.add("is-swinging");
+});
+
+idCard.addEventListener("animationend", () => {
+  idCard.classList.remove("is-swinging");
+  isSwinging = false;
+});
+
+
 

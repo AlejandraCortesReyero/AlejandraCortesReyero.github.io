@@ -1,387 +1,821 @@
-/* Global reset */
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-	--accent:#861c42;
-	--muted:#f6f4f7;
-	--text:#222;
-	--pink:#d32b4f;
+@font-face {
+  font-family: "PortfolioSans";
+  src: local("Arial");
 }
-html,body,#root{height:100%}
-body{
-	font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-	color:var(--text);
-	background-color:#fff;
-			/* Fondo blanco por ahora (sin stripes) */
-			background-image: none;
-			background-color: #ffffff;
-	-webkit-font-smoothing:antialiased;
-	-moz-osx-font-smoothing:grayscale;
-	padding:40px 20px;
+
+:root {
+  --black: #050505;
+  --white: #ffffff;
+  --red: #8f2020;
+  --grey: #d9d9d9;
+  --dark-grey: #9a9a9a;
+
+  --side-padding: clamp(28px, 5vw, 90px);
+  --section-height: 100vh;
 }
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
-.site-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
-.logo{font-weight:600;letter-spacing:1px}
-.meta{color:#666}
 
-.hero{min-height:78vh;display:flex;align-items:center}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* Centered layout for the new single-folder hero */
-.hero-inner{display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;padding:40px 0}
-.hero-inner.centered{text-align:center}
+html {
+  scroll-behavior: smooth;
+}
 
-.hero-left{flex:1}
-.hero-right{flex:1;display:flex;justify-content:center}
+body {
+  font-family: "Arial", "Helvetica Neue", sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+}
 
-.title{font-family:'Playfair Display',serif;font-size:92px;line-height:0.85;color:rgba(129,92,202,0.18);display:flex;align-items:flex-end;gap:8px}
-.title span{color:#861c42;font-weight:700}
-.title em{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;color:#861c42;font-size:56px}
-.subtitle{margin-top:10px;color:#5c5a5a}
-.pager{margin-top:22px;color:#333}
+img {
+  display: block;
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
 
-.folder-wrap{position:relative;width:480px;max-width:90%;height:auto;background:transparent;transition:transform 260ms cubic-bezier(.2,.8,.2,1);will-change:transform;perspective:1200px}
-/* Pop animation: overshoot then settle */
-@keyframes pop {
-	0% { transform: scale(1); }
-	50% { transform: scale(1.08); }
- 100% { transform: scale(1.04); }
+.section {
+  min-height: var(--section-height);
+  position: relative;
+  overflow: hidden;
 }
 
 
-/* Stack: back image, cards, front image */
-.folder-stack{position:relative;width:100%;height:auto;display:block;transform-style:preserve-3d;overflow:visible}
-.folder-back,.folder-front{display:block;width:100%;height:auto;object-fit:contain;pointer-events:none}
+/* ---------------- HERO ---------------- */
 
-/* Ensure the folder (and its images) sit above the folders-grid and can be
-	hovered even when the grid is present. The grid should only accept pointer
-	events on the folder items themselves so it doesn't block hover on the big
-	folder behind it. */
-.folder-wrap{position:relative;z-index:30}
-.folders-grid{pointer-events:none}
-.folders-grid .folder-item{pointer-events:auto}
-.central-title{pointer-events:auto}
+/* ---------------- HERO ---------------- */
 
-/* When the folders grid is shown (state: grid-open), hide the internal project
-	cards so they don't reappear behind the folder front (used when returning
-	from project pages via index.html#folders). */
-.folder-wrap.grid-open .cards{display:none !important;visibility:hidden !important}
-
-.folder-front{position:absolute;left:0;right:0;bottom:0;z-index:20;transition:box-shadow 240ms ease, transform 220ms cubic-bezier(.2,.8,.2,1)}
-.folder-back{position:relative;z-index:1}
-
-/* Place cards inside the folder (between back and front) */
-.cards{position:absolute;left:15%;top:18%;width:70%;height:auto;z-index:2;pointer-events:none}
-.card{position:absolute;width:34%;height:auto;border-radius:6px;object-fit:cover;box-shadow:0 10px 26px rgba(0,0,0,0.14);transition:transform 360ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease, width 220ms ease, height 220ms ease;transform:rotate(var(--r, 0deg)) translateZ(var(--z, 0px));}
-/* left small card (moved inwards) */
-.card-1{left:8%;top:12%;--r:-10deg;z-index:8;width:30%}
-/* center red card - prominent and forward (slightly narrower) */
-.card-2{left:30%;top:6%;--r:-6deg;z-index:11;width:36%}
-/* right large card (coffee) - moved leftwards and slightly smaller */
-.card-3{left:52%;top:6%;--r:6deg;z-index:9;width:36%}
-/* small right-most behind (moved inwards) and above card-3 */
-.card-4{left:66%;top:calc(36% + 50px);--r:8deg;--z:-80px;z-index:11;width:26%}
-
-.folder-wrap:hover .folder-front{box-shadow:none}
-/* On hover combine the original rotation (--r) with translate/scale so rotation is preserved */
-.folder-wrap:hover .card{transform:rotate(var(--r, 0deg)) translateZ(var(--z, 0px)) translateY(-12px) scale(1.03)}
-
-/* Make the big folder images (back/front) respond to hover like the small folder icons
-   so the visible folder feels interactive. Use transform rather than animation to
-   avoid interfering with the launch flow. */
-.folder-back,.folder-front{transition:transform 220ms cubic-bezier(.2,.8,.2,1);transform-origin:50% 60%}
-.folder-wrap:hover .folder-back,
-.folder-wrap:hover .folder-front,
-.folder-wrap.pop .folder-back,
-.folder-wrap.pop .folder-front{
-	transform: translateY(-8px) scale(1.04);
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  background: #ffffff; /* opcional, por si quieres ese gris clarito */
 }
 
-/* Launch animation: when user clicks the folder, cards fly up with a fun arc + rotation and fade out */
-.folder-wrap.launched{pointer-events:none}
-/* Keep the folder front visible while files fly */
-.folder-wrap.launched .folder-front{opacity:1}
-
-/* Ensure the visible folder front also performs the pop with a slight delay
-   (so it's noticeable after the card launch animations). Use transform-origin
-   at the center-bottom so the folder 'pops' naturally from its base. */
-/* keep default launched front opacity/behavior defined elsewhere */
-
-/* Generic launch animation settings */
-.card.launch{animation-fill-mode:forwards;animation-duration:900ms;animation-timing-function:cubic-bezier(.2,.8,.2,1);opacity:1}
-
-/* Per-card staggered animation names and delays for a lively effect */
-.card-1.launch{animation-name:launch1;animation-delay:0ms}
-.card-2.launch{animation-name:launch2;animation-delay:80ms}
-.card-3.launch{animation-name:launch3;animation-delay:160ms}
-.card-4.launch{animation-name:launch4;animation-delay:240ms}
-
-@keyframes launch1{
-	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
-	40%{transform:rotate(calc(var(--r,0deg) - 12deg)) translateZ(var(--z,0px)) translateY(-28vh) translateX(-6px) scale(0.96);opacity:0.95}
-	100%{transform:rotate(calc(var(--r,0deg) - 36deg)) translateZ(var(--z,0px)) translateY(-120vh) translateX(-20px) scale(0.7);opacity:0}
+.hero-left,
+.hero-right {
+  display: contents;
 }
 
-@keyframes launch2{
-	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
-	40%{transform:rotate(calc(var(--r,0deg) + 8deg)) translateZ(var(--z,0px)) translateY(-30vh) translateX(8px) scale(0.95);opacity:0.95}
-	100%{transform:rotate(calc(var(--r,0deg) + 46deg)) translateZ(var(--z,0px)) translateY(-130vh) translateX(28px) scale(0.68);opacity:0}
+/* HELLO WORLD */
+.hero h1 {
+  position: absolute;
+  left: 4.5vw;
+  top: 8.5vh;
+
+  font-size: clamp(64px, 5.8vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.085em;
+  font-weight: 900;
+
+  white-space: nowrap;
+  z-index: 3;
+  margin: 0;
 }
 
-@keyframes launch3{
-	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
-	40%{transform:rotate(calc(var(--r,0deg) - 6deg)) translateZ(var(--z,0px)) translateY(-32vh) translateX(-12px) scale(0.94);opacity:0.95}
-	100%{transform:rotate(calc(var(--r,0deg) - 52deg)) translateZ(var(--z,0px)) translateY(-140vh) translateX(-36px) scale(0.66);opacity:0}
+/* TEXTO PEQUEÑO ARRIBA DERECHA */
+.hero-right > p {
+  position: absolute;
+  right: 6.2vw;
+  top: 9.2vh;
+
+  width: 420px;
+  max-width: 420px;
+
+  font-size: clamp(15px, 1.1vw, 21px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.72); /* más suave para que no resalte tanto */
+
+  margin: 0;
+  z-index: 3;
 }
 
-@keyframes launch4{
-	0%{transform:rotate(var(--r,0deg)) translateZ(var(--z,0px)) translateY(0) scale(1);opacity:1}
-	40%{transform:rotate(calc(var(--r,0deg) + 14deg)) translateZ(var(--z,0px)) translateY(-34vh) translateX(10px) scale(0.93);opacity:0.95}
-	100%{transform:rotate(calc(var(--r,0deg) + 62deg)) translateZ(var(--z,0px)) translateY(-150vh) translateX(40px) scale(0.64);opacity:0}
+/* TEXTO PEQUEÑO ABAJO IZQUIERDA */
+.hero-bottom-text {
+  position: absolute;
+  left: 4.5vw;
+  bottom: 15vh;
+
+  width: 420px;
+  max-width: 420px;
+
+  font-size: clamp(15px, 1.1vw, 21px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.68); /* más clarito */
+
+  margin: 0;
+  z-index: 3;
 }
 
-/* Ensure hero hiding produces clean result after scroll */
-.hero.hide-after-launch{transition:opacity 320ms ease;opacity:0;pointer-events:none}
+/* NOMBRE GRANDE ABAJO DERECHA */
+.hero-right h2 {
+  position: absolute;
+  right: 4.8vw;
+  bottom: 10.3vh;
 
-.site-footer{padding:28px 0}
-.small-note{display:flex;justify-content:flex-end}
-.search-bubble{background:rgba(255,255,255,0.9);padding:12px 18px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+  font-size: clamp(60px, 5.4vw, 102px);
+  line-height: 0.92;
+  letter-spacing: -0.09em;
+  font-weight: 900;
 
-/* Responsive */
-
-@media (max-width:480px){
-	body{padding:18px}
-	.title{font-size:44px}
-	.container{padding:0 8px}
+  width: max-content;
+  white-space: nowrap;
+  margin: 0;
+  z-index: 3;
 }
 
-/* MOBILE: stack central folder and show small folders as 2x2 grid centered */
-@media (max-width:480px){
-	.hero-inner{align-items:center;text-align:center}
-	/* make the central folder larger and centered */
-	.folder-wrap{width:320px;max-width:84vw;height:auto;margin:0 auto}
-	.folder-front,.folder-back{max-width:100%;height:auto}
+/* COLGANTE CENTRADO */
+.id-holder {
+  position: absolute;
+  left: 35%;
+  top: 0;
+  transform: translateX(-50%);
 
-	 /* Position the internal project 'cards' so they sit visibly inside the big folder on mobile.
-		 Keep their original aspect ratio (no forced width/height) and only scale down via max-width. */
-	/* nudge the whole cards block a bit left and lift it so cards protrude above the folder top
-	   NOTE: give `.cards` an explicit height so percentage `top` on absolutely-positioned
-	   `.card-*` resolves correctly on mobile (otherwise percentages against an auto height
-	   containing block compute as 0 and `top` appears to have no effect). */
-	.cards{display:block;position:absolute;left:6%;top:8%;width:88%;height:160px;z-index:2;pointer-events:none}
-	/* slightly smaller on mobile so they fit better inside the folder */
-	.card{position:absolute;border-radius:6px;object-fit:contain;box-shadow:0 8px 20px rgba(0,0,0,0.12);transition:transform 260ms cubic-bezier(.2,.8,.2,1),opacity 220ms ease;max-width:32%;height:auto}
-	 /* tuned positions so the mini-cards are mostly behind the folder front (lower top values) */
-	/* move projects slightly lower so they sit more inside the folder on mobile
-	   and lower their 2D stacking so the folder front covers their bottoms */
-	.card-1{left:12%;top:15%;--r:-8deg;z-index:10;--z:120px}
-	.card-2{left:30%;top:15%;--r:-4deg;z-index:9;--z:115px}
-	.card-3{left:48%;top:30%;--r:6deg;z-index:9;--z:110px}
-	/* project 4 remains inside the folder toward the center */
-	.card-4{left:53%;top:10%;--r:8deg;--z:8px;z-index:6}
+  width: 420px;
+  height: 100vh;
 
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 
-
-	/* central title below the big folder, static flow */
-	.central-title{
-		position:static;
-		margin-top:18px;
-		transform:none;
-		left:auto;
-	}
-
-	/* When folders grid is revealed, switch to a centered flex/grid layout */
-	.folders-grid{
-		position:relative; /* relative so children flow */
-		transform:none;
-		opacity:1;
-		visibility:visible;
-		padding-top:12px;
-	}
-
-	.folders-inner{
-		display:flex;
-		flex-wrap:wrap;
-		gap:18px 36px;
-		justify-content:center;
-		align-items:center;
-		padding:8px 0 40px;
-		box-sizing:border-box;
-		width:100%;
-		max-width:420px;
-		margin:0 auto;
-	}
-
-	/* make folder items participate in flow instead of absolute positioning */
-	.folders-grid.revealed .folder-item{position:static;transform:none;opacity:1;display:flex;flex-direction:column;align-items:center;margin:0}
-	.folders-grid.revealed .folder-item.tl,
-	.folders-grid.revealed .folder-item.tr,
-	.folders-grid.revealed .folder-item.bl,
-	.folders-grid.revealed .folder-item.br{left:auto;right:auto;top:auto;bottom:auto}
-
-	.folder-icon{width:72px}
-	.folder-title{font-size:14px}
-
-	/* ensure the small folders keep the pop hover on mobile (if using pointer) but no absolute offset */
-	.folders-grid .folder-item:hover .folder-icon{transform:scale(1.04)}
+  overflow: visible;
+  pointer-events: auto;
+  z-index: 2;
 }
 
-/* Folders grid shown after launch - positioned around the central folder inside .hero */
-.hero{position:relative;perspective:1200px;-webkit-perspective:1200px}
-.folders-grid{position:absolute;inset:0;background:transparent;padding:0;margin:0;min-height:0;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:auto;transform-style:preserve-3d}
-.folders-grid.revealed{opacity:1;visibility:visible;transform:none;transition:opacity 420ms ease,transform 420ms ease}
-/* When revealed, ensure the grid sits above the folder and accepts pointer events */
-.folders-grid.revealed{pointer-events:auto !important;z-index:40}
-.folders-inner{position:relative;width:100%;height:100%}
-.folders-row{position:relative;width:100%;height:100%}
-.folder-item{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translateZ(0px) translateY(0);transition:transform 520ms cubic-bezier(.2,.8,.2,1), opacity 420ms ease}
-/* positions around central folder */
-.folder-item.tl{left:6%;top:8%}
-.folder-item.tr{right:6%;top:8%}
-.folder-item.bl{left:6%;bottom:14%}
-.folder-item.br{right:6%;bottom:14%}
-.folder-icon{width:120px;height:auto;display:block}
-.folder-title{margin-top:10px;font-size:18px;color:#111;font-weight:500}
-.folder-item{cursor:pointer}
-.folder-icon{transition:transform 220ms cubic-bezier(.2,.8,.2,1)}
+.id-card {
+  height: 98vh;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
 
-.folders-grid .folder-item:hover{animation: pop 320ms cubic-bezier(.2,.8,.2,1) forwards}
-.folders-grid .folder-item:hover .folder-icon{transform:translateY(-8px) scale(1.04)}
-
-.folder-wrap{
-	position: relative;
-}
-.central-title{
-	position: absolute;
-	top: 100%;          /* justo debajo */
-	margin-top: -60px;   /* misma distancia que los otros títulos */
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 18px;
-	/* Default to a normal weight on desktop (Poppins 400 is loaded). Mobile will
-	   explicitly use 600 via the media query so iOS devices keep the intended look. */
-	font-weight: 400;
-	color: #111;
+  transform-origin: 50% 0%;
+  transition: filter 0.3s ease;
 }
 
-/* tablet breakpoint removed — desktop and mobile only */
-
-@media (max-width:480px){
-	.folder-icon{width:72px}
-	.central-title{font-size:18px;bottom:10%}
-	.folder-item.tl{left:6%;top:4%}
-	.folder-item.tr{right:6%;top:4%}
-	.folder-item.bl{left:6%;bottom:20%}
-	.folder-item.br{right:6%;bottom:20%}
+.id-card.is-swinging {
+  animation: swingBadge 2.4s ease-in-out forwards;
+  /*filter: drop-shadow(0 25px 20px rgba(0, 0, 0, 0.12));*/
 }
 
-/* Depth: push top folders slightly back in Z when revealed */
-.folders-grid.revealed .folder-item.tl,
-.folders-grid.revealed .folder-item.tr { transform: translateZ(-80px) scale(0.88) translateY(6px); }
-.folders-grid.revealed .folder-item.bl,
-.folders-grid.revealed .folder-item.br { transform: translateZ(0px) scale(0.96) translateY(0px); }
-
-/* Final override for mobile to ensure stacked flow (placed at end so it wins over earlier rules) */
-@media (max-width:480px){
-	.folders-grid{position:relative !important;inset:auto !important;transform:none !important;opacity:1 !important;visibility:visible !important}
-	.folders-grid.revealed{position:relative !important}
-	.folders-inner{display:flex !important;flex-wrap:wrap !important;gap:18px 36px !important;justify-content:center !important;align-items:center !important;width:100% !important;max-width:420px;margin:0 auto;padding:8px 0 40px}
-	.folders-grid.revealed .folder-item{position:static !important;transform:none !important;opacity:1 !important;display:flex !important;flex-direction:column !important;align-items:center !important;margin:0 !important}
-	.folders-grid.revealed .folder-item.tl,.folders-grid.revealed .folder-item.tr,.folders-grid.revealed .folder-item.bl,.folders-grid.revealed .folder-item.br{left:auto !important;right:auto !important;top:auto !important;bottom:auto !important}
-	.central-title{position:static !important;margin-top:18px !important;transform:none !important;left:auto !important}
-	.folder-wrap{width:320px !important;max-width:84vw !important;height:auto;margin:0 auto !important}
-	.folder-front,.folder-back{max-width:100% !important;height:auto !important}
-	.folder-icon{width:72px !important}
-	.folder-title{font-size:14px !important}
+@keyframes swingBadge {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(4deg);
+  }
+  45% {
+    transform: rotate(-4.5deg);
+  }
+  70% {
+    transform: rotate(2.6deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
-/* Tuning mobile to match the supplied 'asi' screenshot exactly */
-@media (max-width:480px){
-	/* make the big folder a fixed, centered width similar to the screenshot */
-	.folder-wrap{width:260px !important;max-width:84vw !important}
-	.folder-front,.folder-back{width:260px !important;height:auto;display:block;margin:0 auto}
+/* ---------------- QUOTE ---------------- */
 
-	/* clip any parts of the project cards that extend beyond the folder edges */
-	.folder-stack{overflow:hidden !important}
+.quote-section {
+  min-height: 100vh;
+  position: relative;
 
-	 /* central title styling as in screenshot - keep typography consistent with desktop */
-	 /* Use the same font-size/weight as the desktop central title to avoid
-		 unexpected font changes between breakpoints */
-	 .central-title{position:static !important;margin-top:20px !important;font-size:18px !important;font-weight:500 !important;text-align:center !important}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	/* arrange small folders in a 2x2 grid centered under the title */
-	.folders-inner{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:22px 36px !important;justify-items:center !important;align-items:start !important;padding:18px 0 40px !important;max-width:320px;margin:0 auto}
-	.folders-grid.revealed .folder-item{position:static !important;transform:none !important}
-
-	/* smaller folder icons and labels matching screenshot */
-	.folder-icon{width:56px !important}
-	.folder-title{font-size:14px !important;margin-top:10px !important}
-
-
-
-	/* spacing around the main hero to push content similar to screenshot */
-	.hero-inner{padding-top:24px;padding-bottom:24px}
-	.title{font-size:48px}
+  padding: 80px clamp(40px, 5vw, 90px);
+  overflow: hidden;
 }
 
-/* Center footer search bubble on mobile so the email bubble sits exactly centered */
-@media (max-width:480px){
-	/* remove horizontal padding and force full-width container so centering is exact */
-	.site-footer .container { display:flex; justify-content:center; padding:0 !important; width:100% !important; max-width:100% !important; }
-	/* center the small-note content and give a small vertical padding */
-	.site-footer .small-note { justify-content:center; width:100%; padding:12px 0; }
-	/* ensure the bubble itself is centered inside its flex parent */
-	.search-bubble { margin:0 auto; display:inline-block; }
-
-	 /* Ensure the small folders grid does not intercept pointer events over the big folder
-		 (unless it is revealed) — this prevents it blocking hover on the main folder.
-		 When the grid is visible it will have the `.revealed` class and remain interactive. */
-	 .folders-grid:not(.revealed){pointer-events:none !important}
-	.folders-grid .folder-item{pointer-events:auto !important}
-
-	/* Make sure the big folder is on top so touch events reach it reliably */
-	.folder-wrap{z-index:9999 !important}
-
-	/* Keep `.central-title` typography identical on mobile and desktop. Use 600
-	   because Poppins 500 is not loaded — mapping differs across platforms. */
-	.central-title{font-size:18px !important; font-weight:600 !important; text-align:center !important}
-
-	/* Force the footer container to span the viewport width and respect safe-area
-	   insets (iPhone notch) so centering is exact on real devices. */
-	.site-footer .container { width:100vw !important; max-width:100vw !important; padding-left:env(safe-area-inset-left) !important; padding-right:env(safe-area-inset-right) !important; }
+.quote-content {
+  width: min(72vw, 1250px);
+  max-width: 1250px;
+  position: relative;
+  z-index: 2;
 }
 
-/* Projects pages: grid and cards */
-.projects-hero{padding:48px 20px}
-.projects-title{font-family:'Playfair Display', serif; font-size:48px; margin-bottom:28px; text-align:center}
-.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;max-width:1100px;margin:0 auto;padding:8px}
-.project-item{text-decoration:none;color:inherit;display:block}
-.project-card{background:#6f2f38;height:220px;border-radius:34px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.project-card img{width:100%;height:100%;object-fit:cover;display:block}
-.project-caption{text-align:center;margin-top:12px;font-size:16px}
-
-/* Back button top-left */
-.back-btn{position:fixed;left:18px;top:18px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:transparent;padding:4px;border-radius:0;box-shadow:none;font-size:20px;z-index:9999}
-
-@media (max-width:720px){
-	.projects-grid{grid-template-columns:repeat(2,1fr);gap:20px}
-	.project-card{height:180px}
+.quote-content h2 {
+  font-size: clamp(42px, 4.2vw, 78px);
+  line-height: 1.05;
+  letter-spacing: -0.075em;
+  font-weight: 900;
 }
 
-@media (max-width:480px){
-	.projects-grid{grid-template-columns:1fr;max-width:320px;margin:0 auto}
-	.projects-title{font-size:32px}
+.quote-content p {
+  margin-top: 38px;
+  text-align: right;
+
+  font-size: clamp(20px, 1.8vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-weight: 400;
+
+    transform: translateX(-90px);
 }
 
-/* Back button uses an inline SVG image; make it fit and add hover pop */
-.back-btn img{width:40px;height:40px;display:block;transform-origin:center center}
-.back-btn{background:transparent;padding:6px}
-.back-btn:hover img,
-.back-btn:focus img{transform-origin:center center;animation: pop-strong 360ms cubic-bezier(.2,.8,.2,1) forwards}
-.back-btn:active img{transform:translateY(3px) scale(0.96)}
+/* COMILLAS EN IMAGEN */
 
-@keyframes pop-strong {
-	0% { transform: translateY(0) rotate(0deg) scale(1); }
-	35% { transform: translateY(-10px) rotate(-8deg) scale(1.18); }
-	70% { transform: translateY(-6px) rotate(-4deg) scale(1.06); }
- 100% { transform: translateY(-4px) rotate(-2deg) scale(1.02); }
+.quote-img {
+  position: absolute;
+  width: clamp(180px, 14vw, 300px);
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
 }
 
+.quote-img-top {
+  left: 3.5vw;
+  top: 14vh;
+}
+
+.quote-img-bottom {
+  right: 3.5vw;
+  top: 48vh;
+}
+
+
+/* ---------------- PROJECTS ---------------- */
+
+.projects-section {
+  padding: 90px var(--side-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-title {
+  font-size: clamp(55px, 6vw, 110px);
+  line-height: 0.92;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  margin-bottom: 120px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(45px, 7vw, 130px);
+  align-items: end;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.stack {
+  width: min(100%, 370px);
+  aspect-ratio: 1.25 / 1;
+  position: relative;
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+}
+
+.stack span,
+.stack img {
+  position: absolute;
+  width: 72%;
+  aspect-ratio: 1.25 / 1;
+  object-fit: cover;
+  left: 0;
+  bottom: 0;
+  transition:
+    transform 0.35s cubic-bezier(.2,.8,.2,1),
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+}
+
+.stack span:nth-child(1) {
+  background: #efefef;
+  transform: translate(35%, -28%);
+}
+
+.stack span:nth-child(2) {
+  background: #dddddd;
+  transform: translate(25%, -20%);
+}
+
+.stack span:nth-child(3) {
+  background: #c6c6c6;
+  transform: translate(15%, -12%);
+}
+
+.stack span:nth-child(4) {
+  background: #a5a5a5;
+  transform: translate(48%, -36%);
+  z-index: -1;
+}
+
+.stack img {
+  z-index: 5;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.project-card h3 {
+  margin-top: 70px;
+  font-size: clamp(24px, 2vw, 42px);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+}
+
+.project-card:hover .stack {
+  transform: translateY(-24px) rotate(-1deg);
+}
+
+.project-card:hover .stack img {
+  transform: translateY(-22px) scale(1.03);
+  box-shadow: 0 28px 45px rgba(0, 0, 0, 0.14);
+}
+
+.project-card:hover .stack span:nth-child(1) {
+  transform: translate(35%, -42%);
+}
+
+.project-card:hover .stack span:nth-child(2) {
+  transform: translate(25%, -33%);
+}
+
+.project-card:hover .stack span:nth-child(3) {
+  transform: translate(15%, -23%);
+}
+
+.project-card:hover .stack span:nth-child(4) {
+  transform: translate(48%, -48%);
+}
+
+
+/* ---------------- DRAG SECTION ---------------- */
+
+.drag-section {
+  padding: 70px var(--side-padding);
+}
+
+.drag-title {
+  position: absolute;
+  right: var(--side-padding);
+  top: 70px;
+  text-align: right;
+  font-size: clamp(52px, 6vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  z-index: 5;
+}
+
+.drag-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.basket-drop-zone {
+  position: absolute;
+  right: 0;
+  bottom: 60px;
+  width: min(58vw, 900px);
+  z-index: 1;
+
+  transform: translateX(200px);
+}
+
+.basket {
+  width: 75%;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.basket-drop-zone.is-active .basket {
+  filter: drop-shadow(0 0 28px rgba(143, 32, 32, 0.45));
+  transform: scale(1.015);
+}
+
+.drag-item {
+  position: absolute;
+  z-index: 10;
+  cursor: grab;
+  touch-action: none;
+  transition:
+    transform 0.22s ease,
+    filter 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.drag-item:hover {
+  transform: scale(1.04) rotate(-2deg);
+  filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.18));
+}
+
+.drag-item.dragging {
+  cursor: grabbing;
+  z-index: 100;
+  transition: none;
+  transform: scale(1.08) rotate(3deg);
+  filter: drop-shadow(0 30px 24px rgba(0, 0, 0, 0.25));
+}
+
+.drag-item.dropped {
+  animation: dropPop 0.45s ease;
+}
+
+@keyframes dropPop {
+  0% {
+    transform: scale(1.05);
+  }
+
+  45% {
+    transform: scale(0.92) rotate(-2deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.tape {
+  width: clamp(120px, 15vw, 240px);
+  left: 2vw;
+  top: 25vh;
+}
+
+.camera {
+  width: clamp(140px, 18vw, 280px);
+  left: 1vw;
+  top: 43vh;
+}
+
+.cv {
+  width: clamp(150px, 17vw, 270px);
+  left: 23vw;
+  top: 34vh;
+  transform: rotate(6deg);
+}
+
+.gum {
+  width: clamp(100px, 13vw, 210px);
+  left: 5vw;
+  top: 68vh;
+}
+
+.laptop {
+  width: clamp(160px, 19vw, 310px);
+  left: 24vw;
+  top: 65vh;
+}
+
+
+/* ---------------- CONTACT ---------------- */
+
+.contact-section {
+  min-height: 100vh;
+  padding-top: 130px;
+}
+
+.contact-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 130px;
+  width: 100%;
+  background: var(--red);
+  color: white;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  min-width: max-content;
+  animation: marqueeRight 18s linear infinite;
+}
+
+.marquee-track span {
+  font-size: clamp(42px, 5vw, 90px);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+@keyframes marqueeRight {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.contact-content {
+  min-height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px var(--side-padding);
+}
+
+.phone {
+  width: clamp(190px, 22vw, 360px);
+  animation: phoneFloat 3.8s ease-in-out infinite;
+}
+
+@keyframes phoneFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(1deg);
+  }
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+.contact-info h2 {
+  font-size: clamp(55px, 8vw, 140px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.contact-info a {
+  color: var(--black);
+  font-size: clamp(22px, 2.5vw, 42px);
+  text-decoration: none;
+  letter-spacing: -0.06em;
+  border-bottom: 2px solid transparent;
+  transition: 0.25s ease;
+}
+
+.contact-info a:hover {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+
+
+/* ---------------- MODAL ---------------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  width: min(92vw, 620px);
+  background: white;
+  border: 2px solid var(--black);
+  padding: 45px 50px 50px;
+  position: relative;
+  box-shadow: 20px 20px 0 var(--red);
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.25s cubic-bezier(.2,.8,.2,1);
+}
+
+.modal-overlay.is-open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal h2 {
+  font-size: clamp(38px, 4vw, 68px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  margin-bottom: 22px;
+}
+
+.modal p {
+  font-size: clamp(18px, 1.5vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.modal-close:hover {
+  transform: rotate(90deg);
+}
+
+
+/* ---------------- REVEAL ANIMATION ---------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 1000px) {
+  @media (max-width: 1000px) {
+  .hero {
+    min-height: 100vh;
+  }
+
+  .hero h1 {
+    left: 6vw;
+    top: 7vh;
+    font-size: clamp(58px, 13vw, 100px);
+    white-space: normal;
+  }
+
+  .hero-bottom-text {
+    left: 6vw;
+    bottom: 8vh;
+    max-width: 430px;
+  }
+
+  .hero-right > p {
+    right: 6vw;
+    top: 32vh;
+    max-width: 360px;
+  }
+
+  .hero-right h2 {
+    right: 6vw;
+    bottom: 22vh;
+    font-size: clamp(52px, 12vw, 95px);
+    white-space: normal;
+  }
+
+  .id-holder {
+    left: 50%;
+    top: -1vh;
+    height: 100vh;
+  }
+
+  .id-card {
+    height: 90vh;
+    width: auto;
+    max-width: none;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 90px;
+  }
+
+  .drag-title {
+    position: relative;
+    top: auto;
+    right: auto;
+    text-align: left;
+    margin-bottom: 60px;
+  }
+
+  .drag-stage {
+    height: 850px;
+  }
+
+  .basket-drop-zone {
+    width: 90vw;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 60px;
+  }
+
+  .contact-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 60px;
+  }
+
+  .contact-info {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 90px;
+  }
+
+  .drag-title {
+    position: relative;
+    top: auto;
+    right: auto;
+    text-align: left;
+    margin-bottom: 60px;
+  }
+
+  .drag-stage {
+    height: 850px;
+  }
+
+  .basket-drop-zone {
+    width: 90vw;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 60px;
+  }
+
+  .contact-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 60px;
+  }
+
+  .contact-info {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 650px) {
+  :root {
+    --side-padding: 22px;
+  }
+
+  .drag-stage {
+    height: 760px;
+  }
+
+  .tape {
+    left: 2vw;
+    top: 14vh;
+  }
+
+  .camera {
+    left: 3vw;
+    top: 28vh;
+  }
+
+  .cv {
+    left: 42vw;
+    top: 22vh;
+  }
+
+  .gum {
+    left: 3vw;
+    top: 48vh;
+  }
+
+  .laptop {
+    left: 42vw;
+    top: 48vh;
+  }
+
+  .modal {
+    padding: 38px 28px 34px;
+    box-shadow: 10px 10px 0 var(--red);
+  }
+}
