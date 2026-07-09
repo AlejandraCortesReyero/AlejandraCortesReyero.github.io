@@ -500,6 +500,7 @@ img {
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
+  z-index: 20;
 }
 
 .marquee-track {
@@ -531,22 +532,31 @@ img {
   min-height: calc(100vh - 130px);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 80px var(--side-padding);
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 .phone {
-  width: clamp(190px, 22vw, 360px);
+  position: absolute;
+  left: -7vw;
+  top: -100px;
+  width: clamp(620px, 46vw, 920px);
+  height: auto;
+  transform-origin: top center;
   animation: phoneFloat 3.8s ease-in-out infinite;
+  z-index: 1;
 }
 
 @keyframes phoneFloat {
   0%, 100% {
-    transform: translateY(0) rotate(-1deg);
+    transform: scaleX(-1) translateY(0) rotate(-1deg);
   }
 
   50% {
-    transform: translateY(-18px) rotate(1deg);
+    transform: scaleX(-1) translateY(-18px) rotate(1deg);
   }
 }
 
