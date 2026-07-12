@@ -70,48 +70,72 @@
 
 
   <!-- PROJECTS -->
-  <section class="projects-section section">
-    <h2 class="section-title reveal">
+  <section class="projects-section section" id="projects">
+    <div
+      class="projects-viewport"
+      id="projectsViewport"
+      aria-label="Draggable projects board"
+    >
+      <div class="projects-world" id="projectsWorld"></div>
+    </div>
+
+    <h2 class="projects-title">
       Check out some of my<br />
       best projects.
     </h2>
 
-    <div class="projects-grid reveal">
+    <nav class="projects-toolbar" aria-label="Project categories">
+      <button
+        class="project-filter is-active"
+        type="button"
+        data-category="web"
+        aria-pressed="true"
+      >
+        <span class="project-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path d="M17 9v5M8 18h5M11 11l4 4M30 9l-2 5M38 17l-5 2" />
+            <path class="solid-icon" d="M18.2 17.2 37 26.4l-8.1 2.1 5.2 8.8-4.8 2.8-5-8.7-5.9 6.1-.2-20.3Z" />
+          </svg>
+        </span>
+        <span class="project-filter-label">Web Design</span>
+      </button>
 
-      <article class="project-card">
-        <div class="stack">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <img src="assets/project-web.png" alt="Web Design project" />
-        </div>
-        <h3>Web Design</h3>
-      </article>
+      <button
+        class="project-filter"
+        type="button"
+        data-category="archviz"
+        aria-pressed="false"
+      >
+        <span class="project-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path class="solid-icon" d="m12 32 4 4 20-20-4-4-20 20Zm-2 2-1 6 6-1-5-5Zm24-24 4 4 2-2a2.8 2.8 0 0 0 0-4l-.1-.1a2.8 2.8 0 0 0-4 0L34 10Z" />
+          </svg>
+        </span>
+        <span class="project-filter-label">Arch-Viz</span>
+      </button>
 
-      <article class="project-card">
-        <div class="stack">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <img src="assets/project-archviz.png" alt="Arch-Viz project" />
-        </div>
-        <h3>Arch-Viz</h3>
-      </article>
+      <button
+        class="project-filter"
+        type="button"
+        data-category="models"
+        aria-pressed="false"
+      >
+        <span class="project-filter-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path d="m24 7 15 8.5v17L24 41 9 32.5v-17L24 7Z" />
+            <path d="m9 15.5 15 8.7 15-8.7M24 24.2V41" />
+            <path d="m17 11 15 8.6v8.3L17 36.5 9 32" />
+          </svg>
+        </span>
+        <span class="project-filter-label">3D Models</span>
+      </button>
+    </nav>
 
-      <article class="project-card">
-        <div class="stack">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <img src="assets/project-3d.png" alt="3D Models project" />
-        </div>
-        <h3>3D Models</h3>
-      </article>
+    <p class="projects-drag-hint">(Drag &amp; move around to see more)</p>
 
-    </div>
+    <p class="sr-only" id="projectsStatus" aria-live="polite">
+      Web Design projects selected.
+    </p>
   </section>
 
 
