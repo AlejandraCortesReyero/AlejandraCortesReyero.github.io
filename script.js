@@ -441,81 +441,44 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
     archviz: [
       {
-        title: "Pilates Studio Interior:",
+        title: "Kitchen Visualisation:",
 
-        main: createPlaceholder(
-          "Pilates Studio",
-          "#d8c8b6",
-          "#493d32"
-        ),
+        main:"assets/KitchenTop.png",
 
         thumbs: [
-          createPlaceholder(
-            "Reception",
-            "#e7ddd1",
-            "#493d32"
-          ),
-
-          createPlaceholder(
-            "Training Area",
-            "#bda98f",
-            "#493d32"
-          ),
-
-          createPlaceholder(
-            "Material Study",
-            "#efe8df",
-            "#493d32"
-          )
+          "assets/KitchenTop-01.png",
+          "assets/KitchenTop-02.png",
+          "assets/KitchenTop-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "An interior visualisation project for a small boutique Pilates studio.",
-
-          "Natural materials, warm lighting and soft curved forms were used to create a quiet space that feels premium without becoming intimidating.",
-
-          "The design balances practical circulation with a calm visual identity suitable for both training and relaxation."
+          "It's been a while since I worked on an interior design project, so I decided to spend some of my free time creating this scene. Now that classes are finally over, it feels great to have a bit more time to work on the things I enjoy.",
+          "I designed this warm and minimalist kitchen concept built around a large arch that frames the workspace.",
+          "I combined dark wood, neutral tones, organic textures and soft lighting to create a calm, welcoming and visually balanced space.",
         ]
       },
 
       {
-        title: "Japandi Bathroom:",
+        title: "Japandi Living Room:",
 
-        main: createPlaceholder(
-          "Japandi Bathroom",
-          "#a89d8d",
-          "#fffaf2"
-        ),
+        main:"assets/Japandi.png",
 
         thumbs: [
-          createPlaceholder(
-            "Vanity Detail",
-            "#c8bdae",
-            "#443d35"
-          ),
-
-          createPlaceholder(
-            "Shower Area",
-            "#81786d"
-          ),
-
-          createPlaceholder(
-            "Lighting Test",
-            "#e2d7c5",
-            "#443d35"
-          )
+          "assets/Japandi-01.png",
+          "assets/Japandi-02.png",
+          "assets/Japandi-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "A compact bathroom designed around Japandi principles and a restrained material palette.",
+          "I first saw a table like this in a house and was immediately drawn to its raw, sculptural shape. I liked it so much that I decided to recreate it and design an entire room around it.",
 
-          "Stone, oak and indirect lighting create a clean atmosphere while preserving warmth and texture.",
+          "From there, I built a calm, Japandi-inspired space using natural materials, soft neutral tones and warm sunlight.",
 
-          "The visualisation explored how a small room can feel open through proportion, reflections and carefully controlled contrast."
+          "The simple furniture, textured wood and minimal decoration keep the focus on the table while making the room feel peaceful, balanced and lived-in."
         ]
       },
 
