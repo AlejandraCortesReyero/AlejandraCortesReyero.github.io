@@ -219,34 +219,541 @@ if (projectsViewport && projectsWorld && projectsSection) {
     models: "3D Models"
   };
 
-  /*
-    For now, every category uses the same IKEA test project.
-    Later, replace each entry with the real assets/text for that project.
-  */
+    // Crea imágenes temporales para los proyectos que todavía
+  // no tienen imágenes reales dentro de la carpeta assets.
+  function createPlaceholder(label, background, textColor = "#ffffff") {
+    const svg = `
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1100"
+        height="700"
+        viewBox="0 0 1100 700"
+      >
+        <rect
+          width="1100"
+          height="700"
+          fill="${background}"
+        />
+
+        <circle
+          cx="930"
+          cy="120"
+          r="170"
+          fill="rgba(255,255,255,0.12)"
+        />
+
+        <circle
+          cx="150"
+          cy="610"
+          r="230"
+          fill="rgba(255,255,255,0.08)"
+        />
+
+        <text
+          x="550"
+          y="350"
+          fill="${textColor}"
+          font-family="Arial, Helvetica, sans-serif"
+          font-size="58"
+          font-weight="700"
+          text-anchor="middle"
+          dominant-baseline="middle"
+        >
+          ${label}
+        </text>
+      </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
+
+
+  // Posición de los cuatro proyectos dentro de la esterilla.
   const projectLayouts = [
-    { x: 670, y: 360, scale: 1, rotation: -0.3 },
-    { x: 1910, y: 260, scale: 0.84, rotation: 0.8 },
-    { x: 470, y: 1290, scale: 0.82, rotation: 0.5 },
-    { x: 1740, y: 1210, scale: 0.94, rotation: -0.7 },
-    { x: 3010, y: 470, scale: 0.72, rotation: 0.6 },
-    { x: 2920, y: 1450, scale: 0.82, rotation: -0.5 }
+    {
+      x: 670,
+      y: 360,
+      scale: 1,
+      rotation: -0.3
+    },
+    {
+      x: 1910,
+      y: 260,
+      scale: 0.84,
+      rotation: 0.8
+    },
+    {
+      x: 470,
+      y: 1290,
+      scale: 0.82,
+      rotation: 0.5
+    },
+    {
+      x: 1740,
+      y: 1210,
+      scale: 0.94,
+      rotation: -0.7
+    }
   ];
 
-  const testProject = {
-    title: "IKEA Re-creations Concept:",
-    main: "assets/ikea-main.gif",
-    thumbs: [
-      "assets/ikea-01.png",
-      "assets/ikea-02.png",
-      "assets/ikea-03.png"
+
+  // Cuatro proyectos diferentes para cada categoría.
+  const projectsByCategory = {
+    web: [
+      {
+        title: "IKEA Re-creations Concept:",
+
+        main: "assets/ikea-main.gif",
+
+        thumbs: [
+          "assets/ikea-01.png",
+          "assets/ikea-02.png",
+          "assets/ikea-03.png"
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "This project is a concept for IKEA called Re-Creations, designed as a new section of their website.",
+
+          "Re-Creations allows users to customise existing IKEA furniture by changing colours, patterns, or paint finishes for an additional $5.99.",
+
+          "The main focus of this Figma prototype was to make the experience fun and playful, especially when switching between different colour and design suggestions. I wanted those transitions to feel dynamic and entertaining, making the customisation process enjoyable to watch."
+        ]
+      },
+
+      {
+        title: "Croffy Bakery Website:",
+
+        main: createPlaceholder(
+          "Croffy Bakery",
+          "#7a564e"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Croffy Menu",
+            "#ffcadd",
+            "#7a564e"
+          ),
+
+          createPlaceholder(
+            "Croffy Mobile",
+            "#f5e7dc",
+            "#7a564e"
+          ),
+
+          createPlaceholder(
+            "Croffy Branding",
+            "#9a7469"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A warm and playful website concept for an independent bakery and coffee shop.",
+
+          "The interface combines hand-drawn details, product photography and a simple menu structure designed to feel friendly rather than overly polished.",
+
+          "The project focused on creating a strong visual identity while keeping ordering information clear and easy to navigate."
+        ]
+      },
+
+      {
+        title: "Docky Productivity App:",
+
+        main: createPlaceholder(
+          "Docky App",
+          "#4d83ff"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Task View",
+            "#75a0ff"
+          ),
+
+          createPlaceholder(
+            "Mood States",
+            "#315fc5"
+          ),
+
+          createPlaceholder(
+            "Notch Interaction",
+            "#9bbaff",
+            "#173267"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "Docky is a small productivity tool designed around the MacBook notch.",
+
+          "It keeps daily tasks close without taking over the screen, using a compact interface, playful mood states and lightweight interactions.",
+
+          "The goal was to turn a normally unused area into something useful, personal and satisfying to interact with."
+        ]
+      },
+
+      {
+        title: "Migraine Tracker:",
+
+        main: createPlaceholder(
+          "Migraine Tracker",
+          "#b9a8e8",
+          "#332d4c"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Quick Log",
+            "#d7cef2",
+            "#332d4c"
+          ),
+
+          createPlaceholder(
+            "Pain Map",
+            "#a6d7d2",
+            "#274441"
+          ),
+
+          createPlaceholder(
+            "Weekly Insights",
+            "#f1d6c9",
+            "#5a3a31"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A calm and minimal tracking experience for people who need to register migraine episodes quickly.",
+
+          "The flow prioritises only the most useful information: duration, pain location, medication and whether the treatment helped.",
+
+          "The visual system avoids clinical overload and uses soft illustrations to make repeated tracking feel less exhausting."
+        ]
+      }
     ],
-    clip: "assets/red-clip.png",
-    paragraphs: [
-      "This project is a concept for IKEA called Re-Creations, designed as a new section of their website.",
-      "Re-Creations allows users to customise existing IKEA furniture by changing colours, patterns, or paint finishes for an additional $5.99.",
-      "The main focus of this Figma prototype was to make the experience fun and playful, especially when switching between different colour and design suggestions. I wanted those transitions to feel dynamic and entertaining, making the customisation process enjoyable to watch."
+
+
+    archviz: [
+      {
+        title: "Pilates Studio Interior:",
+
+        main: createPlaceholder(
+          "Pilates Studio",
+          "#d8c8b6",
+          "#493d32"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Reception",
+            "#e7ddd1",
+            "#493d32"
+          ),
+
+          createPlaceholder(
+            "Training Area",
+            "#bda98f",
+            "#493d32"
+          ),
+
+          createPlaceholder(
+            "Material Study",
+            "#efe8df",
+            "#493d32"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "An interior visualisation project for a small boutique Pilates studio.",
+
+          "Natural materials, warm lighting and soft curved forms were used to create a quiet space that feels premium without becoming intimidating.",
+
+          "The design balances practical circulation with a calm visual identity suitable for both training and relaxation."
+        ]
+      },
+
+      {
+        title: "Japandi Bathroom:",
+
+        main: createPlaceholder(
+          "Japandi Bathroom",
+          "#a89d8d",
+          "#fffaf2"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Vanity Detail",
+            "#c8bdae",
+            "#443d35"
+          ),
+
+          createPlaceholder(
+            "Shower Area",
+            "#81786d"
+          ),
+
+          createPlaceholder(
+            "Lighting Test",
+            "#e2d7c5",
+            "#443d35"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A compact bathroom designed around Japandi principles and a restrained material palette.",
+
+          "Stone, oak and indirect lighting create a clean atmosphere while preserving warmth and texture.",
+
+          "The visualisation explored how a small room can feel open through proportion, reflections and carefully controlled contrast."
+        ]
+      },
+
+      {
+        title: "Soft Minimal Bedroom:",
+
+        main: createPlaceholder(
+          "Minimal Bedroom",
+          "#d9c6c1",
+          "#513f3b"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Bed Area",
+            "#eadbd7",
+            "#513f3b"
+          ),
+
+          createPlaceholder(
+            "Reading Corner",
+            "#c7b1a9",
+            "#513f3b"
+          ),
+
+          createPlaceholder(
+            "Night Lighting",
+            "#8b7470"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A soft bedroom visualisation focused on comfort, simplicity and subtle colour.",
+
+          "Rounded furniture, layered fabrics and low lighting make the room feel lived-in while maintaining a clean composition.",
+
+          "The project was also used to test fabric materials, depth of field and warm nighttime rendering."
+        ]
+      },
+
+      {
+        title: "Neighbourhood Coffee Shop:",
+
+        main: createPlaceholder(
+          "Coffee Shop",
+          "#8f624d"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Counter",
+            "#c99877",
+            "#4a2e23"
+          ),
+
+          createPlaceholder(
+            "Seating Area",
+            "#6e4938"
+          ),
+
+          createPlaceholder(
+            "Facade",
+            "#e0b999",
+            "#4a2e23"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A cosy coffee shop concept built around an open counter and flexible seating.",
+
+          "The interior uses dark wood, warm plaster and graphic signage to create a recognisable identity from both inside and outside.",
+
+          "The main challenge was fitting several customer zones into a narrow floor plan without making the space feel crowded."
+        ]
+      }
+    ],
+
+
+    models: [
+      {
+        title: "Retro Telephone Model:",
+
+        main: createPlaceholder(
+          "Retro Telephone",
+          "#c84e42"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Wireframe",
+            "#2d2d2d"
+          ),
+
+          createPlaceholder(
+            "Materials",
+            "#e6b8a9",
+            "#5a2c26"
+          ),
+
+          createPlaceholder(
+            "Final Render",
+            "#8e332d"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A stylised 3D telephone inspired by colourful domestic objects from the 1970s.",
+
+          "The model combines simple hard-surface forms with slightly exaggerated proportions to give it a playful silhouette.",
+
+          "The project covered modelling, UVs, materials and a final product-style lighting setup."
+        ]
+      },
+
+      {
+        title: "Robot Mascot:",
+
+        main: createPlaceholder(
+          "Robot Mascot",
+          "#f0b84f",
+          "#45320e"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Character Sheet",
+            "#ffe08f",
+            "#45320e"
+          ),
+
+          createPlaceholder(
+            "Expression Test",
+            "#75a4d8",
+            "#17324f"
+          ),
+
+          createPlaceholder(
+            "Turnaround",
+            "#d98e42",
+            "#45320e"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A friendly robot mascot created for a fictional creative software brand.",
+
+          "Its shapes were kept simple and readable so the character could work in both 3D scenes and small interface illustrations.",
+
+          "Several face states and poses were developed to make the model expressive without requiring complex facial rigging."
+        ]
+      },
+
+      {
+        title: "Pastry Display Set:",
+
+        main: createPlaceholder(
+          "Pastry Display",
+          "#e8b6b0",
+          "#583a35"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Croissant",
+            "#dca56d",
+            "#4d321c"
+          ),
+
+          createPlaceholder(
+            "Cake Slice",
+            "#f0cfca",
+            "#583a35"
+          ),
+
+          createPlaceholder(
+            "Display Case",
+            "#9d766f"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A small collection of stylised bakery assets for use in a cosy game environment.",
+
+          "Each item was designed with a low-poly structure and soft materials so the set could remain lightweight while still looking appealing up close.",
+
+          "The assets share the same proportions and colour language, making them easy to combine into different shop displays."
+        ]
+      },
+
+      {
+        title: "Modular Desk Kit:",
+
+        main: createPlaceholder(
+          "Modular Desk Kit",
+          "#59756c"
+        ),
+
+        thumbs: [
+          createPlaceholder(
+            "Desk Pieces",
+            "#77958b"
+          ),
+
+          createPlaceholder(
+            "Accessories",
+            "#d4c2a4",
+            "#4b3b28"
+          ),
+
+          createPlaceholder(
+            "Scene Test",
+            "#384d47"
+          )
+        ],
+
+        clip: "assets/red-clip.png",
+
+        paragraphs: [
+          "A modular set of desk furniture and accessories designed for fast environment building.",
+
+          "The pieces can be rearranged into study rooms, offices or creative workspaces without requiring unique geometry for every scene.",
+
+          "The project focused on consistent scale, reusable materials and clean topology suitable for real-time use."
+        ]
+      }
     ]
   };
+
 
   function projectMarkup(project, layout, index) {
     const paragraphs = project.paragraphs
@@ -255,8 +762,13 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
     const thumbs = project.thumbs
       .map(
-        (src, thumbIndex) =>
-          `<img src="${src}" alt="${project.title} process image ${thumbIndex + 1}" draggable="false">`
+        (src, thumbIndex) => `
+          <img
+            src="${src}"
+            alt="${project.title} process image ${thumbIndex + 1}"
+            draggable="false"
+          >
+        `
       )
       .join("");
 
@@ -275,9 +787,12 @@ if (projectsViewport && projectsWorld && projectsSection) {
           <img
             class="project-main-media"
             src="${project.main}"
-            alt="${project.title} animated website prototype"
+            alt="${project.title} main visual"
             draggable="false"
-            ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
+            ${index === 0
+              ? 'fetchpriority="high"'
+              : 'loading="lazy"'
+            }
           >
 
           <div class="project-thumbnails">
@@ -295,25 +810,37 @@ if (projectsViewport && projectsWorld && projectsSection) {
           >
 
           <h3>${project.title}</h3>
+
           ${paragraphs}
         </div>
       </article>
     `;
   }
 
+
   function renderProjects(category = "web") {
     projectsWorld.classList.add("is-changing");
 
     window.setTimeout(() => {
-      projectsWorld.innerHTML = projectLayouts
-        .map((layout, index) => projectMarkup(testProject, layout, index))
+      const selectedProjects =
+        projectsByCategory[category] || projectsByCategory.web;
+
+      projectsWorld.innerHTML = selectedProjects
+        .map((project, index) => {
+          return projectMarkup(
+            project,
+            projectLayouts[index],
+            index
+          );
+        })
         .join("");
 
       projectsWorld.dataset.category = category;
       projectsWorld.classList.remove("is-changing");
 
       if (projectsStatus) {
-        projectsStatus.textContent = `${categoryNames[category]} projects selected.`;
+        projectsStatus.textContent =
+          `${categoryNames[category]} projects selected.`;
       }
     }, 120);
   }
