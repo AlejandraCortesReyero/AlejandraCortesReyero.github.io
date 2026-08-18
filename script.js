@@ -322,7 +322,32 @@ if (projectsViewport && projectsWorld && projectsSection) {
       rotation: -0.7
     }
   ];
-
+  const mobileProjectLayouts = [
+    {
+      x: 650,
+      y: 300,
+      scale: 1,
+      rotation: -2
+    },
+    {
+      x: 1250,
+      y: 330,
+      scale: 1,
+      rotation: 2
+    },
+    {
+      x: 680,
+      y: 650,
+      scale: 1,
+      rotation: 1
+    },
+    {
+      x: 1280,
+      y: 680,
+      scale: 1,
+      rotation: -2
+    }
+  ];
 
   // Cuatro proyectos diferentes para cada categoría.
   const projectsByCategory = {
@@ -739,11 +764,16 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
       projectsWorld.innerHTML = selectedProjects
         .map((project, index) => {
-          return projectMarkup(
-            project,
-            projectLayouts[index],
-            index
-          );
+          const layouts =
+          window.innerWidth <= 650
+            ? mobileProjectLayouts
+            : projectLayouts;
+
+        return projectMarkup(
+          project,
+          layouts[index],
+          index
+        );
         })
         .join("");
 
