@@ -67,9 +67,10 @@
 
   .id-holder {
     position: absolute;
-    left: 19%;
+    left: 15%;
     top: 42px;
-    transform: none;
+    transform: translateX(-50%);
+
     width: 72%;
     height: 73svh;
     z-index: 2;
@@ -87,7 +88,7 @@
   /* TEXTO PEQUEÑO DE ABAJO */
   .hero-bottom-text {
     position: absolute;
-    top: 65%;
+    top: 70%;
     bottom: auto;
     left: 50%;
     transform: translateX(-50%);
@@ -106,7 +107,7 @@
   .hero-right h2 {
     position: absolute;
     right: 32px;
-    bottom: 30px;
+    bottom: 92px;
     z-index: 5;
 
     width: calc(100% - 64px);
