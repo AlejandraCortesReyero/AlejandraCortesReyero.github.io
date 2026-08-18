@@ -138,62 +138,95 @@
     </p>
   </section>
 
+<!-- ABOUT ME OBJECTS -->
+<section class="drag-section section">
 
-  <!-- DRAG & DROP -->
-  <section class="drag-section section">
-    <h2 class="drag-title reveal">
-      Learn more about me.<br />
-      Just drag & drop.
-    </h2>
+  <h2 class="drag-title reveal">
+    Learn more about me.<br />
+    Just click stuff.
+  </h2>
 
-    <div class="drag-stage reveal">
+  <div class="about-layout reveal">
+
+    <!-- LATA + OBJETOS -->
+    <div class="tin-area">
 
       <img
-        src="assets/tape.png"
-        alt="Tape"
-        class="drag-item tape"
-        data-modal="tape"
+        src="assets/tincan.png"
+        alt=""
+        class="tin-can"
         draggable="false"
       />
 
-      <img
-        src="assets/camera.png"
-        alt="Camera"
-        class="drag-item camera"
-        data-modal="camera"
-        draggable="false"
-      />
+      <button
+        class="about-object tape"
+        type="button"
+        data-info="tape"
+        aria-label="My references"
+      >
+        <img src="assets/tape.png" alt="" draggable="false" />
+      </button>
 
-      <img
-        src="assets/cv.png"
-        alt="CV"
-        class="drag-item cv"
-        data-modal="cv"
-        draggable="false"
-      />
+      <button
+        class="about-object camera"
+        type="button"
+        data-info="camera"
+        aria-label="My visual side"
+      >
+        <img src="assets/camera.png" alt="" draggable="false" />
+      </button>
 
-      <img
-        src="assets/gum.png"
-        alt="Bubble gum"
-        class="drag-item gum"
-        data-modal="gum"
-        draggable="false"
-      />
+      <button
+        class="about-object cv"
+        type="button"
+        data-info="cv"
+        aria-label="My experience"
+      >
+        <img src="assets/cv.png" alt="" draggable="false" />
+      </button>
 
-      <img
-        src="assets/laptop.png"
-        alt="Laptop"
-        class="drag-item laptop"
-        data-modal="laptop"
-        draggable="false"
-      />
+      <button
+        class="about-object gum"
+        type="button"
+        data-info="gum"
+        aria-label="My personality"
+      >
+        <img src="assets/gum.png" alt="" draggable="false" />
+      </button>
 
-      <div class="basket-drop-zone" id="basketDropZone">
-        <img src="assets/basket.png" alt="Basket" class="basket" />
-      </div>
+      <button
+        class="about-object laptop"
+        type="button"
+        data-info="laptop"
+        aria-label="What I do"
+      >
+        <img src="assets/laptop.png" alt="" draggable="false" />
+      </button>
 
     </div>
-  </section>
+
+<div class="about-info-panel" id="aboutInfoPanel">
+
+  <div class="about-info-inner" id="aboutInfoContent">
+
+    <div class="about-default">
+      <span class="about-eyebrow">ABOUT ME</span>
+
+      <h3>
+        Pick something<br>
+        from the tin.
+      </h3>
+
+      <p>
+        Every object tells you something different about me.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
 
 
   <!-- CONTACT -->
@@ -238,16 +271,6 @@
       </div>
     </div>
   </section>
-
-
-  <!-- POPUP -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <button class="modal-close" id="modalClose">×</button>
-      <h2 id="modalTitle"></h2>
-      <p id="modalText"></p>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>

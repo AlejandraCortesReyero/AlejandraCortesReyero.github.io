@@ -1,206 +1,233 @@
 // -------------------------------
-// POPUP CONTENT
+// ABOUT ME OBJECTS
 // -------------------------------
 
-const modalContent = {
-  tape: {
-    title: "My references",
-    text:
-      "I love collecting visual references, music, film moments and tiny details that help me build a mood before starting a project."
-  },
+const aboutObjects = document.querySelectorAll(".about-object");
 
-  camera: {
-    title: "My visual side",
-    text:
-      "I enjoy creating visuals that feel personal, clean and memorable. I care a lot about mood, composition and the little things that make a design feel alive."
-  },
+const aboutInfoPanel = document.getElementById("aboutInfoPanel");
+const aboutInfoContent = document.getElementById("aboutInfoContent");
 
-  cv: {
-    title: "My experience",
-    text:
-      "I currently work in UDIT's Research Department as a Producer and Team Manager, coordinating creative teams and helping projects move forward."
-  },
 
-  gum: {
-    title: "My personality",
-    text:
-      "I like playful ideas, bold visuals and projects that do not feel too serious. I enjoy mixing clean design with unexpected details."
-  },
+const aboutContent = {
 
-  laptop: {
-    title: "What I do",
-    text:
-      "I work across web design, production, project management, UI ideas, 3D visuals and creative direction. Basically, I like making things happen."
-  }
+  // ---------------- CAMERA ----------------
+
+  camera: `
+    <div class="visual-info-panel">
+
+      <span class="about-eyebrow">01 — MY VISUAL SIDE</span>
+
+      <h3>
+        I notice the<br>
+        little things.
+      </h3>
+
+      <p class="about-description">
+        I'm always collecting visual references: compositions, interiors,
+        colours, websites, films and random details I find interesting.
+        Most of my projects start with building a strong visual direction.
+      </p>
+
+      <div class="about-tags">
+        <span>Web Design</span>
+        <span>Interiors</span>
+        <span>Photography</span>
+        <span>Visual Research</span>
+      </div>
+
+    </div>
+  `,
+
+
+  // ---------------- TAPE / SPOTIFY ----------------
+
+  tape: `
+    <div class="spotify-panel">
+
+      <span class="about-eyebrow">02 — WHAT I'M LISTENING TO</span>
+
+      <h3>
+        My soundtrack.
+      </h3>
+
+      <p class="about-description">
+        This is probably playing while I'm designing, organising a project
+        or pretending I don't have 18 tabs open.
+      </p>
+
+      <div class="spotify-embed">
+
+        <iframe
+          data-testid="embed-iframe"
+          style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/14IatnY7Y8fv0CO29TohoP?utm_source=generator&theme=0&si=16b31a0131c54365"
+          width="100%"
+          height="352"
+          frameborder="0"
+          allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+
+      </div>
+
+    </div>
+  `,
+
+
+  // ---------------- CV ----------------
+
+  cv: `
+    <div class="cv-panel">
+
+      <div class="panel-top">
+
+        <span class="about-eyebrow">
+          03 — EXPERIENCE
+        </span>
+
+        <a
+          href="assets/Alejandra-Cortes-CV.pdf"
+          download
+          class="download-cv"
+        >
+          Download CV ↓
+        </a>
+
+      </div>
+
+      <div class="cv-preview">
+
+        <img
+          src="assets/cvinfo.png"
+          alt="Alejandra Cortés Reyero CV"
+        >
+
+      </div>
+
+    </div>
+  `,
+
+
+  // ---------------- GUM ----------------
+
+  gum: `
+    <div class="visual-info-panel">
+
+      <span class="about-eyebrow">
+        04 — A LITTLE MORE ME
+      </span>
+
+      <h3>
+        Serious about work.<br>
+        Not so serious otherwise.
+      </h3>
+
+      <p class="about-description">
+        I love playful ideas, unexpected details and designs that feel
+        personal instead of overly polished or corporate.
+      </p>
+
+      <div class="about-tags">
+        <span>Curious</span>
+        <span>Organised</span>
+        <span>Creative</span>
+        <span>Detail obsessed</span>
+      </div>
+
+    </div>
+  `,
+
+
+  // ---------------- LAPTOP ----------------
+
+  laptop: `
+    <div class="visual-info-panel">
+
+      <span class="about-eyebrow">
+        05 — WHAT I DO
+      </span>
+
+      <h3>
+        Design it.<br>
+        Organise it.<br>
+        Make it happen.
+      </h3>
+
+      <p class="about-description">
+        I move between design and production, which means I enjoy both
+        creating the idea and figuring out how to actually make it happen.
+      </p>
+
+      <div class="skills-grid">
+
+        <div>
+          <strong>01</strong>
+          <span>Web Design</span>
+        </div>
+
+        <div>
+          <strong>02</strong>
+          <span>Production</span>
+        </div>
+
+        <div>
+          <strong>03</strong>
+          <span>Project Management</span>
+        </div>
+
+        <div>
+          <strong>04</strong>
+          <span>3D & Visuals</span>
+        </div>
+
+      </div>
+
+    </div>
+  `
 };
 
 
 // -------------------------------
-// MODAL
+// CLICK EN OBJETOS
 // -------------------------------
 
-const modalOverlay = document.getElementById("modalOverlay");
-const modalClose = document.getElementById("modalClose");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
+aboutObjects.forEach((object) => {
 
-function openModal(type) {
-  const content = modalContent[type];
+  object.addEventListener("click", () => {
 
-  if (!content) return;
+    const type = object.dataset.info;
 
-  modalTitle.textContent = content.title;
-  modalText.textContent = content.text;
-
-  modalOverlay.classList.add("is-open");
-}
-
-function closeModal() {
-  modalOverlay.classList.remove("is-open");
-}
-
-modalClose.addEventListener("click", closeModal);
-
-modalOverlay.addEventListener("click", (event) => {
-  if (event.target === modalOverlay) {
-    closeModal();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-  }
-});
+    if (!aboutContent[type]) return;
 
 
-// -------------------------------
-// DRAG & DROP
-// -------------------------------
+    // Quitar selección anterior
+    aboutObjects.forEach((item) => {
+      item.classList.remove("is-active");
+    });
 
-const dragItems = document.querySelectorAll(".drag-item");
-const dropZone = document.getElementById("basketDropZone");
-const dragStage = document.querySelector(".drag-stage");
 
-let activeDrag = null;
+    // Activar objeto seleccionado
+    object.classList.add("is-active");
 
-dragItems.forEach((item) => {
-  item.addEventListener("pointerdown", startDrag);
-});
 
-function startDrag(event) {
-  const item = event.currentTarget;
+    // Animación de salida
+    aboutInfoPanel.classList.add("is-changing");
 
-  item.setPointerCapture(event.pointerId);
-
-  const itemRect = item.getBoundingClientRect();
-
-  activeDrag = {
-    item,
-    pointerId: event.pointerId,
-    startX: event.clientX,
-    startY: event.clientY,
-    startLeft: item.offsetLeft,
-    startTop: item.offsetTop,
-    width: itemRect.width,
-    height: itemRect.height,
-    originalLeft: item.dataset.originalLeft || item.offsetLeft,
-    originalTop: item.dataset.originalTop || item.offsetTop
-  };
-
-  if (!item.dataset.originalLeft) {
-    item.dataset.originalLeft = item.offsetLeft;
-    item.dataset.originalTop = item.offsetTop;
-  }
-
-  item.classList.add("dragging");
-
-  window.addEventListener("pointermove", moveDrag);
-  window.addEventListener("pointerup", endDrag);
-}
-
-function moveDrag(event) {
-  if (!activeDrag) return;
-
-  const { item, startX, startY, startLeft, startTop } = activeDrag;
-
-  const deltaX = event.clientX - startX;
-  const deltaY = event.clientY - startY;
-
-  item.style.left = `${startLeft + deltaX}px`;
-  item.style.top = `${startTop + deltaY}px`;
-
-  if (isInsideDropZone(event.clientX, event.clientY)) {
-    dropZone.classList.add("is-active");
-  } else {
-    dropZone.classList.remove("is-active");
-  }
-}
-
-function endDrag(event) {
-  if (!activeDrag) return;
-
-  const { item } = activeDrag;
-
-  item.classList.remove("dragging");
-  dropZone.classList.remove("is-active");
-
-  const droppedCorrectly = isInsideDropZone(event.clientX, event.clientY);
-
-  if (droppedCorrectly) {
-    placeInsideBasket(item, event.clientX, event.clientY);
-    item.classList.add("dropped");
 
     setTimeout(() => {
-      item.classList.remove("dropped");
-    }, 500);
 
-    openModal(item.dataset.modal);
-  } else {
-    sendBackHome(item);
-  }
+      // Cambiar todo el contenido del panel derecho
+      aboutInfoContent.innerHTML = aboutContent[type];
 
-  window.removeEventListener("pointermove", moveDrag);
-  window.removeEventListener("pointerup", endDrag);
+      // Animación de entrada
+      aboutInfoPanel.classList.remove("is-changing");
 
-  activeDrag = null;
-}
+    }, 200);
 
-function isInsideDropZone(x, y) {
-  const rect = dropZone.getBoundingClientRect();
+  });
 
-  return (
-    x >= rect.left &&
-    x <= rect.right &&
-    y >= rect.top &&
-    y <= rect.bottom
-  );
-}
-
-function placeInsideBasket(item, pointerX, pointerY) {
-  const stageRect = dragStage.getBoundingClientRect();
-
-  const newLeft = pointerX - stageRect.left - item.offsetWidth / 2;
-  const newTop = pointerY - stageRect.top - item.offsetHeight / 2;
-
-  item.style.left = `${newLeft}px`;
-  item.style.top = `${newTop}px`;
-  item.style.zIndex = "20";
-}
-
-function sendBackHome(item) {
-  item.style.transition = "left 0.35s ease, top 0.35s ease, transform 0.25s ease";
-
-  item.style.left = `${item.dataset.originalLeft}px`;
-  item.style.top = `${item.dataset.originalTop}px`;
-
-  setTimeout(() => {
-    item.style.transition = "";
-  }, 360);
-}
-
-
-
+});
 
 // -------------------------------
 // DRAGGABLE PROJECTS BOARD
@@ -323,107 +350,60 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Croffy Bakery Website:",
+        title: "Olipop Website:",
 
-        main: createPlaceholder(
-          "Croffy Bakery",
-          "#7a564e"
-        ),
+        main: "assets/olipop-main.gif",
 
         thumbs: [
-          createPlaceholder(
-            "Croffy Menu",
-            "#ffcadd",
-            "#7a564e"
-          ),
-
-          createPlaceholder(
-            "Croffy Mobile",
-            "#f5e7dc",
-            "#7a564e"
-          ),
-
-          createPlaceholder(
-            "Croffy Branding",
-            "#9a7469"
-          )
+          "assets/olipop-01.png",
+          "assets/olipop-02.png",
+          "assets/olipop-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "A warm and playful website concept for an independent bakery and coffee shop.",
+          "I created this project as a UI/UX design exercise in Figma. The goal was to translate the brand’s colourful and playful identity into a digital experience where the product remains the main focus.",
 
-          "The interface combines hand-drawn details, product photography and a simple menu structure designed to feel friendly rather than overly polished.",
+          "The concept is built around the different soda flavours, with each product having its own colour palette and visual identity inspired by its ingredients.",
 
-          "The project focused on creating a strong visual identity while keeping ordering information clear and easy to navigate."
+          "I also designed the prototype so users can move between flavours through interactive transitions, making the experience feel more dynamic than a traditional product page.",
+
+          "The full interface and interactive prototype were designed by me in Figma."
         ]
       },
 
       {
-        title: "Docky Productivity App:",
+        title: "Pringles Flavour Selector:",
 
-        main: createPlaceholder(
-          "Docky App",
-          "#4d83ff"
-        ),
+        main: "assets/pringles-main.gif",
 
         thumbs: [
-          createPlaceholder(
-            "Task View",
-            "#75a0ff"
-          ),
-
-          createPlaceholder(
-            "Mood States",
-            "#315fc5"
-          ),
-
-          createPlaceholder(
-            "Notch Interaction",
-            "#9bbaff",
-            "#173267"
-          )
+          "assets/pringles-01.png",
+          "assets/pringles-02.png",
+          "assets/pringles-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "Docky is a small productivity tool designed around the MacBook notch.",
+          "The main idea was to turn the traditional product page into a flavour selector, allowing users to switch between products directly from the same interface.",
 
-          "It keeps daily tasks close without taking over the screen, using a compact interface, playful mood states and lightweight interactions.",
+          "Each flavour has its own visual identity, with the product, accent colours and surrounding elements changing dynamically depending on the selected option.",
 
-          "The goal was to turn a normally unused area into something useful, personal and satisfying to interact with."
+          "The large product imagery and animated transitions were designed to make switching between flavours feel more engaging and responsive."
         ]
       },
 
       {
-        title: "Migraine Tracker:",
+        title: "Creative Portfolio:",
 
-        main: createPlaceholder(
-          "Migraine Tracker",
-          "#b9a8e8",
-          "#332d4c"
-        ),
+        main: "assets/portfolio-main.gif",
 
         thumbs: [
-          createPlaceholder(
-            "Quick Log",
-            "#d7cef2",
-            "#332d4c"
-          ),
-
-          createPlaceholder(
-            "Pain Map",
-            "#a6d7d2",
-            "#274441"
-          ),
-
-          createPlaceholder(
-            "Weekly Insights",
-            "#f1d6c9",
-            "#5a3a31"
-          )
+          "assets/portfolio-01.png",
+          "assets/portfolio-02.png",
+          "assets/portfolio-03.png"
         ],
 
         clip: "assets/red-clip.png",
