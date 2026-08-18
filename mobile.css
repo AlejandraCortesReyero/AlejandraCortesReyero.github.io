@@ -279,8 +279,8 @@
   left: 0;
   top: 0;
 
-  width: 4200px;
-  height: 2500px;
+  width: 1850px;
+  height: 1050px;
   padding: 0;
 
   display: block;
@@ -633,7 +633,7 @@
     position: absolute;
     left: 20px;
     right: 20px;
-    bottom: 95px;
+    bottom: 65px;
     z-index: 5;
 
     width: auto;

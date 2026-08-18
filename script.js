@@ -805,10 +805,31 @@ if (projectsViewport && projectsWorld && projectsSection) {
   let hasMoved = false;
 
   function getBounds() {
+    const isMobile = window.matchMedia("(max-width: 650px)").matches;
+
+    if (isMobile) {
+      return {
+        minX: projectsViewport.clientWidth - 1800,
+        maxX: -450,
+
+        minY: projectsViewport.clientHeight - 1050,
+        maxY: -120
+      };
+    }
+
     return {
-      minX: Math.min(0, projectsViewport.clientWidth - projectsWorld.offsetWidth),
+      minX: Math.min(
+        0,
+        projectsViewport.clientWidth - projectsWorld.offsetWidth
+      ),
+
       maxX: 0,
-      minY: Math.min(0, projectsViewport.clientHeight - projectsWorld.offsetHeight),
+
+      minY: Math.min(
+        0,
+        projectsViewport.clientHeight - projectsWorld.offsetHeight
+      ),
+
       maxY: 0
     };
   }
