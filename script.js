@@ -423,7 +423,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
       {
         title: "Creative Portfolio:",
 
-        main: "assets/portfolio-main.gif",
+        main: "assets/portfolio.gif",
 
         thumbs: [
           "assets/portfolio-01.png",
@@ -434,11 +434,11 @@ if (projectsViewport && projectsWorld && projectsSection) {
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "A calm and minimal tracking experience for people who need to register migraine episodes quickly.",
+          "I started this project by designing the entire portfolio in Figma, exploring different layouts and ideas until I found a visual direction that really felt like me.",
 
-          "The flow prioritises only the most useful information: duration, pain location, medication and whether the treatment helped.",
+          "Once I was happy with the design, I started building everything using HTML, CSS and JavaScript in Visual Studio Code, building and coding everything myself.",
 
-          "The visual system avoids clinical overload and uses soft illustrations to make repeated tracking feel less exhausting."
+          "I decided to go for a much more creative, fun and highly interactive portfolio, as I believe this kind of approach is more memorable than a traditional portfolio."
         ]
       }
     ],
