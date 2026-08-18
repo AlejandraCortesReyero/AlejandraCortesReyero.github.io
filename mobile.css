@@ -126,16 +126,16 @@
   .hero-right h2 span {
     white-space: nowrap;
   }
-
-  /* ---------- QUOTE ---------- */
+/* ---------- QUOTE ---------- */
 
   .quote-section {
-    min-height: 82svh;
-    padding: 100px 24px 90px;
-    align-items: center;
+    min-height: auto;
+    padding: 150px 24px 155px;
+    display: block;
   }
 
   .quote-content {
+    position: relative;
     width: 100%;
   }
 
@@ -146,8 +146,8 @@
   }
 
   .quote-content p {
-    margin-top: 26px;
-    padding-left: 25%;
+    margin-top: 34px;
+    padding-left: 20%;
     font-size: 16px;
     line-height: 1.1;
     text-align: right;
@@ -155,18 +155,18 @@
   }
 
   .quote-img {
-    width: 105px;
+    width: 82px;
   }
 
   .quote-img-top {
-    left: 9px;
-    top: 43px;
+    left: 28px;
+    top: 62px;
   }
 
   .quote-img-bottom {
-    right: 7px;
+    right: 28px;
     top: auto;
-    bottom: 48px;
+    bottom: 62px;
   }
 
   /* ---------- PROJECTS: TABLERO DRAGGABLE ---------- */
@@ -565,11 +565,13 @@
     object-fit: contain;
   }
 
-  /* ---------- CONTACT ---------- */
+/* ---------- CONTACT MOBILE ---------- */
 
   .contact-section {
-    min-height: 82svh;
+    min-height: 700px;
+    height: 700px;
     padding-top: 82px;
+    overflow: hidden;
   }
 
   .contact-marquee {
@@ -585,38 +587,76 @@
   }
 
   .contact-content {
-    min-height: calc(82svh - 82px);
-    padding: 300px 20px 58px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: stretch;
-    overflow: visible;
+    position: relative;
+    min-height: 618px;
+    height: 618px;
+    padding: 0;
+    overflow: hidden;
   }
+
+  /* TELÉFONO COLGANDO */
 
   .phone {
-    left: -23%;
-    top: -48px;
-    width: 126%;
+    position: absolute;
+    left: -11%;
+    top: -30px;
+
+    width: 88%;
     max-width: none;
+    height: auto;
+
+    z-index: 1;
   }
 
+  /* FOTO PEGADA ABAJO A LA DERECHA */
+
+  .contact-portrait {
+    display: block;
+    position: absolute;
+
+    right: -12%;
+    left: auto;
+    top: auto;
+    bottom: 0;
+
+    width: 58%;
+    max-width: none;
+    height: auto;
+
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* TEXTO ABAJO A LA IZQUIERDA */
+
   .contact-info {
-    position: relative;
-    z-index: 3;
-    width: 100%;
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 95px;
+    z-index: 5;
+
+    width: auto;
+
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
+
     text-align: left;
+    pointer-events: auto;
   }
 
   .contact-info h2 {
-    margin-bottom: 9px;
-    font-size: clamp(58px, 18vw, 82px);
+    margin: 0 0 10px;
+    font-size: clamp(46px, 13vw, 62px);
+    line-height: 0.88;
   }
 
   .contact-info a {
     max-width: 100%;
-    font-size: clamp(17px, 5vw, 23px);
+    font-size: clamp(15px, 4.2vw, 19px);
+    line-height: 1.05;
     overflow-wrap: anywhere;
   }
 }
