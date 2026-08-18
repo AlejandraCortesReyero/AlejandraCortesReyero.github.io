@@ -45,16 +45,23 @@
     white-space: nowrap;
   }
 
+  /* TEXTO PEQUEÑO DE ARRIBA */
   .hero-right > p {
     position: absolute;
-    top: 128px;
-    right: 20px;
+    top: 11%;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     z-index: 5;
-    width: 47%;
-    max-width: 190px;
+
+    width: calc(100% - 96px);
+    max-width: 536px;
+
+    margin: 0;
     font-size: 13px;
     line-height: 1.08;
     letter-spacing: -0.035em;
+    text-align: justify;
   }
 
   .id-holder {
@@ -76,27 +83,44 @@
     object-fit: contain;
   }
 
+  /* TEXTO PEQUEÑO DE ABAJO */
   .hero-bottom-text {
     position: absolute;
-    left: 20px;
-    bottom: 31px;
+    top: 68%;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 5;
-    width: 44%;
-    max-width: 180px;
+
+    width: calc(100% - 96px);
+    max-width: 536px;
+
+    margin: 0;
     font-size: 13px;
     line-height: 1.08;
     letter-spacing: -0.035em;
+    text-align: justify;
+  }
+
+  .hero-right h2 span {
+    white-space: nowrap;
   }
 
   .hero-right h2 {
     position: absolute;
-    right: 20px;
+    right: 48px;
     bottom: 29px;
     z-index: 5;
-    width: 54%;
-    font-size: clamp(38px, 11.7vw, 54px);
+
+    width: calc(100% - 96px);
+    max-width: 560px;
+
+    margin: 0;
+    font-size: clamp(40px, 10vw, 60px);
     line-height: 0.86;
     letter-spacing: -0.085em;
+    font-weight: 900;
+
     white-space: normal;
     text-align: right;
   }
