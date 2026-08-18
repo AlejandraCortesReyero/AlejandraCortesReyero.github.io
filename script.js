@@ -441,7 +441,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
     archviz: [
       {
-        title: "Kitchen Visualisation:",
+        title: "Kitchen Arch Concept:",
 
         main:"assets/KitchenTop.png",
 
@@ -455,7 +455,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
         paragraphs: [
           "It's been a while since I worked on an interior design project, so I decided to spend some of my free time creating this scene. Now that classes are finally over, it feels great to have a bit more time to work on the things I enjoy.",
-          "I designed this warm and minimalist kitchen concept built around a large arch that frames the workspace.",
+          "I designed this warm and minimalist kitchen area concept built around a large arch that frames the workspace.",
           "I combined dark wood, neutral tones, organic textures and soft lighting to create a calm, welcoming and visually balanced space.",
         ]
       },
@@ -483,84 +483,51 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Soft Minimal Bedroom:",
+        title: "Pilates Studio:",
 
-        main: createPlaceholder(
-          "Minimal Bedroom",
-          "#d9c6c1",
-          "#513f3b"
-        ),
+        main:"assets/Pilates.png",
 
         thumbs: [
-          createPlaceholder(
-            "Bed Area",
-            "#eadbd7",
-            "#513f3b"
-          ),
-
-          createPlaceholder(
-            "Reading Corner",
-            "#c7b1a9",
-            "#513f3b"
-          ),
-
-          createPlaceholder(
-            "Night Lighting",
-            "#8b7470"
-          )
+          "assets/Pilates.png",
+          "assets/Pilates-02.png",
+          "assets/Pilates-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "A soft bedroom visualisation focused on comfort, simplicity and subtle colour.",
+          "This project explores the design of a minimalist Pilates studio, with a focus on creating a space that feels calm, warm and connected to the practice itself.",
 
-          "Rounded furniture, layered fabrics and low lighting make the room feel lived-in while maintaining a clean composition.",
+          "I chose a soft, neutral colour palette combined with natural wood, light fabrics and subtle textures to make the studio feel peaceful without becoming too cold or empty.",
 
-          "The project was also used to test fabric materials, depth of field and warm nighttime rendering."
+          "The layout was designed to keep the room open and functional, with dedicated areas for practice and integrated storage for Pilates equipment."
         ]
       },
 
       {
-        title: "Neighbourhood Coffee Shop:",
+        title: "Open Bathroom Concept:",
 
-        main: createPlaceholder(
-          "Coffee Shop",
-          "#8f624d"
-        ),
+        main:"assets/bañomain.png",
 
         thumbs: [
-          createPlaceholder(
-            "Counter",
-            "#c99877",
-            "#4a2e23"
-          ),
-
-          createPlaceholder(
-            "Seating Area",
-            "#6e4938"
-          ),
-
-          createPlaceholder(
-            "Facade",
-            "#e0b999",
-            "#4a2e23"
-          )
+          "assets/baño-01.png",
+          "assets/baño-02.png",
+          "assets/baño-03.png"
         ],
 
         clip: "assets/red-clip.png",
 
         paragraphs: [
-          "A cosy coffee shop concept built around an open counter and flexible seating.",
+          "The main idea was to move away from the traditional feeling of a bathroom and create a space that feels more like a place to slow down and relax.",
 
-          "The interior uses dark wood, warm plaster and graphic signage to create a recognisable identity from both inside and outside.",
+          "The freestanding rounded bathtub acts as the main focal point, while the circular mirrors and arched opening introduce softer shapes that contrast with the clean architectural lines of the room.",
 
-          "The main challenge was fitting several customer zones into a narrow floor plan without making the space feel crowded."
+          "Lighting was also an important part of the concept. I used indirect lighting around the mirrors and vanity to create depth without adding unnecessary visual elements, while natural light is softened through the curtains."
         ]
       }
     ],
 
-
+/*
     models: [
       {
         title: "Retro Telephone Model:",
@@ -714,8 +681,10 @@ if (projectsViewport && projectsWorld && projectsSection) {
           "The project focused on consistent scale, reusable materials and clean topology suitable for real-time use."
         ]
       }
-    ]
+    ] */
   };
+
+
 
 
   function projectMarkup(project, layout, index) {

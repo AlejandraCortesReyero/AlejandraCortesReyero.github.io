@@ -442,11 +442,14 @@ img {
 }
 
 .project-main-media {
-  width: 650px;
-  height: 377px;
-  object-fit: cover;
-  background: #f6f6f6;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+    max-width: 580px;
+    max-height: 480px;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    background: #f6f6f6;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
 }
 
 .project-thumbnails {
@@ -480,7 +483,7 @@ img {
 .project-clip {
   position: absolute;
   left: 50%;
-  top: -137px;
+  top: -157px;
   width: 236px;
   max-width: none;
   transform: translateX(-50%);
