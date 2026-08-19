@@ -30,8 +30,7 @@ const aboutContent = {
 
       <div class="about-tags">
         <span>Web Design</span>
-        <span>Interiors</span>
-        <span>Photography</span>
+        <span>Interior Design</span>
         <span>Visual Research</span>
       </div>
 
