@@ -631,9 +631,9 @@
 
   .contact-info {
     position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 65px;
+    left: 40px;
+    right: 40px;
+    bottom: 130px;
     z-index: 5;
 
     width: auto;
