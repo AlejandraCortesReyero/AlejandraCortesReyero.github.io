@@ -450,6 +450,13 @@ img {
     box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* Sin botón de play encima de los vídeos (Safari / iOS) */
+video.project-main-media::-webkit-media-controls,
+video.project-main-media::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 .project-thumbnails {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

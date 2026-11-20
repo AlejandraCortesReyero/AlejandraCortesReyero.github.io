@@ -699,6 +699,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
           <video
             class="project-main-media"
             src="${project.main}"
+            data-gif="${project.main.replace(/\.mp4$/i, ".gif")}"
             aria-label="${project.title} main visual"
             autoplay
             muted
@@ -801,11 +802,29 @@ if (projectsViewport && projectsWorld && projectsSection) {
         })
         .join("");
 
-      // Asegura que los vídeos arrancan solos también en Safari / iOS.
+      // Los vídeos arrancan solos. Si el navegador no lo permite
+      // (por ejemplo Safari con ahorro de batería) se muestra el GIF original.
       projectsWorld.querySelectorAll("video").forEach((video) => {
+        const useGif = () => {
+          if (!video.isConnected) return;
+          const gif = document.createElement("img");
+          gif.className = video.className;
+          gif.src = video.dataset.gif;
+          gif.alt = video.getAttribute("aria-label") || "";
+          gif.draggable = false;
+          video.replaceWith(gif);
+        };
+
         video.muted = true;
+        video.addEventListener("error", useGif);
+
         const playing = video.play();
-        if (playing) playing.catch(() => {});
+        if (playing) {
+          playing.catch((error) => {
+            if (error && error.name === "AbortError") return;
+            useGif();
+          });
+        }
       });
 
       projectsWorld.dataset.category = category;
