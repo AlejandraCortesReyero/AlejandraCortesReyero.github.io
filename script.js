@@ -98,7 +98,7 @@ const aboutContent = {
       <div class="cv-preview">
 
         <img
-          src="assets/cvinfo.png"
+          src="assets/cvinfo.webp"
           alt="Alejandra Cortés Reyero CV"
         >
 
@@ -352,17 +352,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
   const projectsByCategory = {
     web: [
       {
-        title: "IKEA Re-creations Concept:",
+        title: "IKEA Re-creations Concept",
 
-        main: "assets/ikea-main.gif",
+        main: "assets/ikea-main.mp4",
 
         thumbs: [
-          "assets/ikea-01.png",
-          "assets/ikea-02.png",
-          "assets/ikea-03.png"
+          "assets/ikea-01.webp",
+          "assets/ikea-02.webp",
+          "assets/ikea-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "This project is a concept for IKEA called Re-Creations, designed as a new section of their website.",
@@ -374,17 +374,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Olipop Website:",
+        title: "Olipop Website",
 
-        main: "assets/olipop-main.gif",
+        main: "assets/olipop-main.mp4",
 
         thumbs: [
-          "assets/olipop-01.png",
-          "assets/olipop-02.png",
-          "assets/olipop-03.png"
+          "assets/olipop-01.webp",
+          "assets/olipop-02.webp",
+          "assets/olipop-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "I created this project as a UI/UX design exercise in Figma. The goal was to translate the brand’s colourful and playful identity into a digital experience where the product remains the main focus.",
@@ -398,17 +398,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Pringles Flavour Selector:",
+        title: "Pringles Flavour Selector",
 
-        main: "assets/pringles-main.gif",
+        main: "assets/pringles-main.mp4",
 
         thumbs: [
-          "assets/pringles-01.png",
-          "assets/pringles-02.png",
-          "assets/pringles-03.png"
+          "assets/pringles-01.webp",
+          "assets/pringles-02.webp",
+          "assets/pringles-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "The main idea was to turn the traditional product page into a flavour selector, allowing users to switch between products directly from the same interface.",
@@ -420,17 +420,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Creative Portfolio:",
+        title: "Creative Portfolio",
 
-        main: "assets/portfolio.gif",
+        main: "assets/portfolio.mp4",
 
         thumbs: [
-          "assets/portfolio-01.png",
-          "assets/portfolio-02.png",
-          "assets/portfolio-03.png"
+          "assets/portfolio-01.webp",
+          "assets/portfolio-02.webp",
+          "assets/portfolio-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "I started this project by designing the entire portfolio in Figma, exploring different layouts and ideas until I found a visual direction that really felt like me.",
@@ -445,17 +445,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
     archviz: [
       {
-        title: "Kitchen Arch Concept:",
+        title: "Kitchen Arch Concept",
 
-        main:"assets/KitchenTop.png",
+        main:"assets/KitchenTop.webp",
 
         thumbs: [
-          "assets/KitchenTop-01.png",
-          "assets/KitchenTop-02.png",
-          "assets/KitchenTop-03.png"
+          "assets/KitchenTop-01.webp",
+          "assets/KitchenTop-02.webp",
+          "assets/KitchenTop-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "It's been a while since I worked on an interior design project, so I decided to spend some of my free time creating this scene. Now that classes are finally over, it feels great to have a bit more time to work on the things I enjoy.",
@@ -465,17 +465,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Japandi Living Room:",
+        title: "Japandi Living Room",
 
-        main:"assets/Japandi.png",
+        main:"assets/Japandi.webp",
 
         thumbs: [
-          "assets/Japandi-01.png",
-          "assets/Japandi-02.png",
-          "assets/Japandi-03.png"
+          "assets/Japandi-01.webp",
+          "assets/Japandi-02.webp",
+          "assets/Japandi-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "I first saw a table like this in a house and was immediately drawn to its raw, sculptural shape. I liked it so much that I decided to recreate it and design an entire room around it.",
@@ -487,17 +487,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Pilates Studio:",
+        title: "Pilates Studio",
 
-        main:"assets/Pilates.png",
+        main:"assets/Pilates.webp",
 
         thumbs: [
-          "assets/Pilates.png",
-          "assets/Pilates-02.png",
-          "assets/Pilates-03.png"
+          "assets/Pilates.webp",
+          "assets/Pilates-02.webp",
+          "assets/Pilates-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "This project explores the design of a minimalist Pilates studio, with a focus on creating a space that feels calm, warm and connected to the practice itself.",
@@ -509,17 +509,17 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Open Bathroom Concept:",
+        title: "Open Bathroom Concept",
 
-        main:"assets/bañomain.png",
+        main:"assets/bañomain.webp",
 
         thumbs: [
-          "assets/baño-01.png",
-          "assets/baño-02.png",
-          "assets/baño-03.png"
+          "assets/baño-01.webp",
+          "assets/baño-02.webp",
+          "assets/baño-03.webp"
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "The main idea was to move away from the traditional feeling of a bathroom and create a space that feels more like a place to slow down and relax.",
@@ -534,7 +534,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
 /*
     models: [
       {
-        title: "Retro Telephone Model:",
+        title: "Retro Telephone Model",
 
         main: createPlaceholder(
           "Retro Telephone",
@@ -559,7 +559,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
           )
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "A stylised 3D telephone inspired by colourful domestic objects from the 1970s.",
@@ -571,7 +571,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Robot Mascot:",
+        title: "Robot Mascot",
 
         main: createPlaceholder(
           "Robot Mascot",
@@ -599,7 +599,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
           )
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "A friendly robot mascot created for a fictional creative software brand.",
@@ -611,7 +611,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Pastry Display Set:",
+        title: "Pastry Display Set",
 
         main: createPlaceholder(
           "Pastry Display",
@@ -638,7 +638,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
           )
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "A small collection of stylised bakery assets for use in a cosy game environment.",
@@ -650,7 +650,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
       },
 
       {
-        title: "Modular Desk Kit:",
+        title: "Modular Desk Kit",
 
         main: createPlaceholder(
           "Modular Desk Kit",
@@ -675,7 +675,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
           )
         ],
 
-        clip: "assets/red-clip.png",
+        clip: "assets/red-clip.webp",
 
         paragraphs: [
           "A modular set of desk furniture and accessories designed for fast environment building.",
@@ -690,6 +690,40 @@ if (projectsViewport && projectsWorld && projectsSection) {
 
 
 
+
+  // Los vídeos (.mp4) sustituyen a los antiguos GIFs: pesan mucho menos
+  // y se ven igual (autoplay, sin sonido y en bucle).
+  function mainMediaMarkup(project, index) {
+    if (/\.mp4$/i.test(project.main)) {
+      return `
+          <video
+            class="project-main-media"
+            src="${project.main}"
+            aria-label="${project.title} main visual"
+            autoplay
+            muted
+            loop
+            playsinline
+            disablepictureinpicture
+            preload="${index === 0 ? "auto" : "metadata"}"
+            draggable="false"
+          ></video>
+      `;
+    }
+
+    return `
+          <img
+            class="project-main-media"
+            src="${project.main}"
+            alt="${project.title} main visual"
+            draggable="false"
+            ${index === 0
+              ? 'fetchpriority="high"'
+              : 'loading="lazy"'
+            }
+          >
+    `;
+  }
 
   function projectMarkup(project, layout, index) {
     const paragraphs = project.paragraphs
@@ -720,16 +754,7 @@ if (projectsViewport && projectsWorld && projectsSection) {
         "
       >
         <div class="project-gallery">
-          <img
-            class="project-main-media"
-            src="${project.main}"
-            alt="${project.title} main visual"
-            draggable="false"
-            ${index === 0
-              ? 'fetchpriority="high"'
-              : 'loading="lazy"'
-            }
-          >
+          ${mainMediaMarkup(project, index)}
 
           <div class="project-thumbnails">
             ${thumbs}
@@ -775,6 +800,13 @@ if (projectsViewport && projectsWorld && projectsSection) {
         );
         })
         .join("");
+
+      // Asegura que los vídeos arrancan solos también en Safari / iOS.
+      projectsWorld.querySelectorAll("video").forEach((video) => {
+        video.muted = true;
+        const playing = video.play();
+        if (playing) playing.catch(() => {});
+      });
 
       projectsWorld.dataset.category = category;
       projectsWorld.classList.remove("is-changing");
